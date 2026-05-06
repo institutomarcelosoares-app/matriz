@@ -1,0 +1,1921 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MATRIZ</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #B8820F;
+  --gold-light: #D4A030;
+  --gold-dark: #8B6208;
+  --gold-muted: #C9A44A;
+  --bg: #F5F0E8;
+  --bg-card: #FFFFFF;
+  --bg-input: #FAFAF7;
+  --bg-section: #EDE8DC;
+  --bg-dark: #1A1610;
+  --bg-dark-card: #221E16;
+  --border: #D8CEBC;
+  --border-strong: #B8A88C;
+  --text: #1A1610;
+  --text-muted: #6B5E42;
+  --text-dim: #A8997A;
+  --text-label: #5A4E35;
+  --white: #FFFFFF;
+  --error: #C0392B;
+  --success: #27AE60;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 300;
+  min-height: 100vh;
+}
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border-strong); }
+
+.screen { display: none; min-height: 100vh; }
+.screen.active { display: flex; flex-direction: column; }
+
+/* ===== LANDING ===== */
+#screen-landing {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 3rem 2rem;
+  background: var(--bg);
+  min-height: 100vh;
+}
+
+.landing-logo {
+  width: 128px;
+  height: 128px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto 1rem;
+}
+
+
+
+.landing-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1rem, 2.5vw, 1.4rem);
+  font-weight: 300;
+  letter-spacing: 0.15em;
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: 1.5rem;
+}
+
+.landing-phrase {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
+  font-weight: 300;
+  font-style: italic;
+  color: var(--text-muted);
+  max-width: 600px;
+  line-height: 1.9;
+  margin: 0 auto 3rem;
+}
+
+.landing-phrase strong {
+  color: var(--gold-muted);
+  font-style: normal;
+  font-weight: 400;
+  display: block;
+  margin-bottom: 1rem;
+  font-size: 1.1em;
+}
+
+.landing-actions { display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+
+.btn-gold {
+  background: var(--gold);
+  border: none;
+  color: #FFF8E8;
+  padding: 1.1rem 3.5rem;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-gold:hover { background: var(--gold-light); }
+
+.btn-outline-light {
+  background: transparent;
+  border: 1.5px solid var(--border-strong);
+  color: var(--text-muted);
+  padding: 0.9rem 2.5rem;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-outline-light:hover { border-color: var(--gold-dark); color: var(--gold-muted); }
+
+/* ===== AUTH ===== */
+#screen-auth {
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: var(--bg);
+  min-height: 100vh;
+}
+
+.auth-box {
+  width: 100%;
+  max-width: 440px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  padding: 2.5rem;
+}
+
+.auth-logo {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto 1.25rem;
+}
+
+.auth-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2rem;
+  letter-spacing: 0.4em;
+  color: var(--gold);
+  text-align: center;
+  margin-bottom: 0.2rem;
+}
+
+.auth-subtitle {
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  color: var(--text-muted);
+  text-align: center;
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+}
+
+.form-group { margin-bottom: 1.25rem; }
+
+.form-label {
+  display: block;
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-label);
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.form-input {
+  width: 100%;
+  background: var(--bg-input);
+  border: 2px solid var(--border);
+  color: var(--text);
+  padding: 0.9rem 1rem;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 400;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.form-input:focus { border-color: var(--gold); }
+.form-input::placeholder { color: var(--text-dim); }
+
+.form-error {
+  font-size: 0.65rem;
+  color: var(--error);
+  margin-top: 0.4rem;
+}
+
+.auth-toggle {
+  text-align: center;
+  margin-top: 1.25rem;
+  font-size: 0.68rem;
+  color: var(--text-muted);
+}
+
+.btn-link {
+  background: none;
+  border: none;
+  color: var(--gold);
+  cursor: pointer;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.68rem;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  font-weight: 500;
+}
+.btn-link:hover { color: var(--gold-light); }
+
+.btn-link-dim {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  cursor: pointer;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.62rem;
+  letter-spacing: 0.05em;
+}
+.btn-link-dim:hover { color: var(--text-muted); }
+
+/* ===== TOP BAR ===== */
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-card);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 1px 8px rgba(0,0,0,0.06);
+}
+
+.top-bar-logo { display: flex; align-items: center; gap: 0.6rem; }
+.top-bar-logo img { width: 28px; height: 28px; object-fit: contain; }
+.top-bar-logo-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.3rem;
+  letter-spacing: 0.3em;
+  color: var(--gold);
+}
+
+.top-bar-right { display: flex; align-items: center; gap: 0.75rem; }
+
+.user-chip {
+  background: var(--bg-section);
+  border: 1px solid var(--border);
+  padding: 0.3rem 0.85rem;
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.btn-action {
+  background: transparent;
+  border: 1.5px solid var(--border-strong);
+  color: var(--text-muted);
+  padding: 0.4rem 1rem;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: 500;
+}
+.btn-action:hover { border-color: var(--gold); color: var(--gold); }
+
+/* ===== MAIN CONTENT ===== */
+.main-content {
+  flex: 1;
+  padding: 1.5rem;
+  max-width: 860px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Daily message */
+.daily-msg {
+  background: var(--bg-dark);
+  border-left: 4px solid var(--gold);
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.75rem;
+}
+
+.daily-msg-label {
+  font-size: 0.58rem;
+  letter-spacing: 0.22em;
+  color: var(--gold-muted);
+  text-transform: uppercase;
+  margin-bottom: 0.6rem;
+  font-weight: 500;
+}
+
+.daily-msg-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.08rem;
+  font-style: italic;
+  color: var(--text-muted);
+  line-height: 1.75;
+}
+
+/* Section */
+.section-title {
+  font-size: 0.6rem;
+  letter-spacing: 0.22em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  font-weight: 500;
+  margin-bottom: 0.85rem;
+}
+
+/* Progress */
+.progress-track {
+  height: 3px;
+  background: var(--border);
+  margin-bottom: 1.25rem;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--gold);
+  transition: width 0.6s ease;
+}
+
+.progress-label {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  float: right;
+  margin-bottom: 0.5rem;
+}
+
+/* Protocol Cards */
+.protocols-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
+  gap: 0.85rem;
+  margin-bottom: 1.75rem;
+}
+
+.proto-card {
+  background: var(--bg-card);
+  border: 1.5px solid var(--border);
+  padding: 1.1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+}
+
+.proto-card.unlocked:hover {
+  border-color: var(--gold);
+  box-shadow: 0 2px 12px rgba(184,130,15,0.12);
+  transform: translateY(-1px);
+}
+
+.proto-card.locked {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: var(--bg-section);
+}
+
+.proto-card.completed {
+  border-color: var(--gold);
+  background: #FFFBF0;
+}
+
+.proto-badge {
+  position: absolute;
+  top: 0.6rem; right: 0.6rem;
+  width: 20px; height: 20px;
+  background: var(--gold);
+  color: white;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.65rem;
+  font-weight: 600;
+}
+
+.proto-num {
+  font-size: 0.52rem;
+  letter-spacing: 0.2em;
+  color: var(--gold-dark);
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+}
+
+.proto-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.4rem;
+  color: var(--gold);
+  font-weight: 400;
+  margin-bottom: 0.3rem;
+}
+
+.proto-desc {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.proto-lock { font-size: 0.58rem; color: var(--text-dim); margin-top: 0.5rem; }
+
+.proto-stars { font-size: 0.75rem; color: var(--gold); margin-top: 0.4rem; }
+
+/* Conquistas */
+.conquistas-wrap { margin-bottom: 1.75rem; }
+
+.conquista-form { display: flex; gap: 0.6rem; margin-bottom: 0.75rem; }
+.conquista-form .form-input { flex: 1; }
+
+.btn-sm {
+  background: var(--gold);
+  border: none;
+  color: white;
+  padding: 0 1.25rem;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s;
+}
+.btn-sm:hover { background: var(--gold-light); }
+
+.conquista-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.85rem 1rem;
+  background: var(--bg-card);
+  border: 1.5px solid var(--border);
+  margin-bottom: 0.5rem;
+}
+
+.conquista-star { color: var(--gold); font-size: 0.85rem; flex-shrink: 0; margin-top: 0.1rem; }
+.conquista-text { font-size: 0.82rem; color: var(--text); line-height: 1.5; font-weight: 400; }
+.conquista-date { font-size: 0.55rem; color: var(--text-dim); letter-spacing: 0.08em; margin-top: 0.2rem; }
+
+.divider { height: 1px; background: var(--border); margin: 1.75rem 0; }
+
+/* ===== PROTOCOL ===== */
+.proto-page-header {
+  background: var(--bg-dark);
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.proto-header-info { flex: 1; }
+
+.proto-header-num {
+  font-size: 0.52rem;
+  letter-spacing: 0.22em;
+  color: var(--gold-dark);
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+}
+
+.proto-header-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2rem;
+  color: var(--gold-muted);
+  font-weight: 300;
+  letter-spacing: 0.08em;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  background: var(--bg-card);
+  border-bottom: 2px solid var(--border);
+  overflow-x: auto;
+}
+
+.tab-btn {
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  color: var(--text-muted);
+  padding: 0.9rem 1.5rem;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+  margin-bottom: -2px;
+  font-weight: 500;
+}
+.tab-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
+.tab-btn:hover:not(.active) { color: var(--text); }
+
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+.proto-body {
+  flex: 1;
+  padding: 1.5rem;
+  max-width: 780px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* About */
+.about-card {
+  background: var(--bg-card);
+  border: 1.5px solid var(--border);
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.about-label {
+  font-size: 0.58rem;
+  letter-spacing: 0.22em;
+  color: var(--gold);
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 0.6rem;
+}
+
+.about-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.08rem;
+  color: var(--text);
+  line-height: 1.85;
+}
+
+.btn-primary {
+  background: var(--gold);
+  border: none;
+  color: white;
+  padding: 1rem 2.5rem;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-block;
+}
+.btn-primary:hover { background: var(--gold-light); }
+.btn-full { width: 100%; }
+
+/* Instrucao */
+.instrucao {
+  background: #FFFBF0;
+  border-left: 4px solid var(--gold-muted);
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.5rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  font-style: italic;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
+/* ===== PERGUNTAS — HIGH CONTRAST ===== */
+.pergunta-wrap {
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  margin-bottom: 1.25rem;
+  overflow: hidden;
+}
+
+.pergunta-top {
+  background: var(--bg-section);
+  padding: 1rem 1.25rem;
+  border-bottom: 2px solid var(--border-strong);
+}
+
+.pergunta-counter {
+  font-size: 0.52rem;
+  letter-spacing: 0.2em;
+  color: var(--gold-dark);
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+}
+
+.pergunta-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.15rem;
+  color: var(--text);
+  line-height: 1.55;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+}
+
+.pergunta-hint {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  font-style: italic;
+  line-height: 1.5;
+}
+
+/* CAIXA DE RESPOSTA — ALTA VISIBILIDADE */
+.pergunta-answer-wrap {
+  background: #FFFFFF;
+  padding: 0.85rem 1.25rem;
+}
+
+.pergunta-answer-label {
+  font-size: 0.55rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.pergunta-answer {
+  width: 100%;
+  background: #FFFEF8;
+  border: 2px solid #C8A84A;
+  color: var(--text);
+  padding: 0.85rem 1rem;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 400;
+  line-height: 1.7;
+  resize: vertical;
+  min-height: 95px;
+  outline: none;
+  transition: border-color 0.2s, background 0.2s;
+  display: block;
+}
+.pergunta-answer:focus {
+  border-color: var(--gold);
+  background: #FFFFF5;
+  box-shadow: 0 0 0 3px rgba(184,130,15,0.08);
+}
+.pergunta-answer::placeholder { color: #C0B090; font-style: italic; }
+
+/* ===== MAPA ===== */
+.padrao-card {
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  padding: 1.25rem;
+  margin-bottom: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  user-select: none;
+}
+
+.padrao-card:hover { border-color: var(--gold-muted); background: #FFFBF0; }
+
+.padrao-card.selected {
+  border-color: var(--gold);
+  background: #FFFBF0;
+  box-shadow: 0 2px 12px rgba(184,130,15,0.12);
+}
+
+.padrao-card.selected::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 4px;
+  background: var(--gold);
+}
+
+.check-box {
+  position: absolute;
+  top: 1rem; right: 1rem;
+  width: 22px; height: 22px;
+  border: 2px solid var(--border-strong);
+  background: white;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.7rem;
+  color: transparent;
+  transition: all 0.15s;
+  font-weight: 700;
+}
+
+.padrao-card.selected .check-box {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: white;
+}
+
+.padrao-num {
+  font-size: 0.52rem;
+  letter-spacing: 0.2em;
+  color: var(--gold-dark);
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+}
+
+.padrao-nome {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.25rem;
+  color: var(--text);
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+  padding-right: 2.5rem;
+}
+
+.padrao-frase {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-style: italic;
+  margin-bottom: 0.75rem;
+  line-height: 1.5;
+  border-left: 3px solid var(--border-strong);
+  padding-left: 0.75rem;
+}
+
+.padrao-sinais { list-style: none; }
+.padrao-sinais li {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  line-height: 1.85;
+  padding-left: 1rem;
+  position: relative;
+  font-weight: 400;
+}
+.padrao-sinais li::before { content: '—'; position: absolute; left: 0; color: var(--gold-dark); font-weight: 600; }
+
+.padrao-revelacao {
+  display: none;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1.5px solid var(--border);
+}
+
+.padrao-card.selected .padrao-revelacao { display: block; }
+
+.rev-label {
+  font-size: 0.55rem;
+  letter-spacing: 0.2em;
+  color: var(--gold);
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.rev-text {
+  font-size: 0.8rem;
+  color: var(--text);
+  line-height: 1.8;
+  margin-bottom: 0.75rem;
+  font-weight: 300;
+}
+
+.rev-base {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  font-style: italic;
+  line-height: 1.6;
+  padding: 0.75rem;
+  background: var(--bg-section);
+  border: 1px solid var(--border);
+}
+
+/* Metas */
+.metas-section {
+  margin-top: 1.75rem;
+  padding: 1.25rem;
+  background: var(--bg-card);
+  border: 1.5px solid var(--border);
+}
+
+.metas-label {
+  font-size: 0.58rem;
+  letter-spacing: 0.2em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
+
+.meta-row { display: flex; gap: 0.6rem; align-items: center; margin-bottom: 0.6rem; }
+.meta-num { font-size: 0.65rem; color: var(--gold-dark); min-width: 16px; font-weight: 600; }
+
+/* Avaliação */
+.avaliacao-section {
+  margin-top: 1.25rem;
+  padding: 1.25rem;
+  background: var(--bg-card);
+  border: 1.5px solid var(--border);
+}
+
+.stars-row { display: flex; gap: 0.35rem; margin: 0.6rem 0 0.85rem; }
+
+.star-btn {
+  background: none;
+  border: none;
+  font-size: 1.75rem;
+  cursor: pointer;
+  color: var(--border);
+  transition: color 0.15s;
+  padding: 0;
+  line-height: 1;
+}
+.star-btn.lit { color: var(--gold); }
+.star-btn:hover { color: var(--gold-light); }
+
+/* Análise */
+.analise-box {
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  border-left: 4px solid var(--gold);
+  padding: 1.75rem;
+  min-height: 180px;
+}
+
+.analise-loading {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  font-style: italic;
+}
+
+.dots { display: flex; gap: 4px; }
+.dots span {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--gold);
+  animation: blink 1.2s ease-in-out infinite;
+}
+.dots span:nth-child(2) { animation-delay: 0.2s; }
+.dots span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes blink { 0%,100%{opacity:0.25;transform:scale(0.8);}50%{opacity:1;transform:scale(1);} }
+
+.analise-nome {
+  font-size: 0.58rem;
+  letter-spacing: 0.2em;
+  color: var(--gold);
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.analise-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.08rem;
+  color: var(--text);
+  line-height: 1.9;
+}
+
+.analise-empty {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  font-style: italic;
+  color: var(--text-dim);
+  line-height: 1.7;
+}
+
+/* ===== MAPA FINAL ===== */
+.mapa-final-wrap { padding: 1.5rem; max-width: 780px; margin: 0 auto; width: 100%; }
+
+.mapa-final-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.5rem;
+  color: var(--gold);
+  font-weight: 300;
+  letter-spacing: 0.12em;
+  margin-bottom: 0.25rem;
+}
+
+.mapa-final-sub {
+  font-size: 0.6rem;
+  letter-spacing: 0.22em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+}
+
+.fecho-box {
+  background: var(--bg-dark);
+  border-left: 4px solid var(--gold);
+  padding: 1.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.fecho-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.08rem;
+  font-style: italic;
+  color: var(--text-muted);
+  line-height: 1.85;
+}
+
+.fecho-text strong { font-style: normal; color: var(--gold-muted); }
+
+.mapa-proto-item {
+  background: var(--bg-card);
+  border: 1.5px solid var(--border);
+  padding: 1.25rem;
+  margin-bottom: 0.85rem;
+}
+
+.mapa-proto-header { display: flex; align-items: baseline; gap: 0.75rem; margin-bottom: 0.75rem; }
+.mapa-proto-num { font-size: 0.52rem; letter-spacing: 0.2em; color: var(--gold-dark); text-transform: uppercase; font-weight: 600; }
+.mapa-proto-name { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; color: var(--gold); font-weight: 400; }
+
+.padroes-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.75rem; }
+.padrao-tag { font-size: 0.62rem; padding: 0.3rem 0.85rem; border: 1.5px solid var(--gold); color: var(--gold); letter-spacing: 0.05em; font-weight: 500; background: #FFFBF0; }
+
+.mapa-analise-preview { font-size: 0.76rem; color: var(--text-muted); line-height: 1.7; border-left: 3px solid var(--border-strong); padding-left: 0.75rem; font-style: italic; }
+
+/* Indicação */
+.indicacao-box {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: var(--bg-dark);
+  text-align: center;
+}
+
+.indicacao-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.3rem;
+  color: var(--gold-muted);
+  font-style: italic;
+  margin-bottom: 0.5rem;
+}
+
+.indicacao-text {
+  font-size: 0.72rem;
+  color: #8A7A5A;
+  line-height: 1.7;
+  margin-bottom: 1.25rem;
+  max-width: 420px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.share-btns { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
+
+.btn-share {
+  background: transparent;
+  border: 1.5px solid #4A3E2A;
+  color: #8A7A5A;
+  padding: 0.75rem 1.5rem;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-share:hover { border-color: var(--gold-dark); color: var(--gold-muted); }
+
+/* Comparativo */
+.comp-box { background: var(--bg-card); border: 1.5px solid var(--border); padding: 1.25rem; margin-bottom: 0.75rem; }
+.comp-proto-name { font-size: 0.6rem; letter-spacing: 0.15em; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.75rem; font-weight: 500; }
+.comp-cols { display: flex; align-items: center; gap: 0.75rem; }
+.comp-col { flex: 1; }
+.comp-col-label { font-size: 0.55rem; letter-spacing: 0.15em; color: var(--text-dim); text-transform: uppercase; margin-bottom: 0.4rem; font-weight: 500; }
+.comp-tags { display: flex; flex-direction: column; gap: 0.3rem; }
+.comp-tag-antes { font-size: 0.65rem; padding: 0.2rem 0.6rem; border: 1px solid var(--border-strong); color: var(--text-muted); }
+.comp-tag-depois { font-size: 0.65rem; padding: 0.2rem 0.6rem; border: 1.5px solid var(--gold); color: var(--gold); background: #FFFBF0; font-weight: 500; }
+.comp-arrow { color: var(--gold); font-size: 1.2rem; padding: 0 0.25rem; font-weight: 300; }
+
+/* Admin */
+.admin-wrap { padding: 1.5rem; max-width: 1100px; margin: 0 auto; width: 100%; }
+.admin-title { font-family: 'Cormorant Garamond', serif; font-size: 2rem; color: var(--gold); font-weight: 300; letter-spacing: 0.2em; margin-bottom: 2rem; }
+
+.stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+.stat-card { background: var(--bg-card); border: 1.5px solid var(--border); padding: 1.25rem; }
+.stat-num { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; color: var(--gold); font-weight: 300; line-height: 1; margin-bottom: 0.25rem; }
+.stat-label { font-size: 0.58rem; letter-spacing: 0.18em; color: var(--text-muted); text-transform: uppercase; font-weight: 500; }
+
+.table-wrap { overflow-x: auto; background: var(--bg-card); border: 1.5px solid var(--border); }
+table { width: 100%; border-collapse: collapse; }
+th { font-size: 0.55rem; letter-spacing: 0.18em; color: var(--text-muted); text-transform: uppercase; padding: 0.75rem 1rem; text-align: left; border-bottom: 2px solid var(--border); font-weight: 600; background: var(--bg-section); }
+td { padding: 0.85rem 1rem; font-size: 0.8rem; color: var(--text); border-bottom: 1px solid var(--border); font-weight: 300; }
+tr:hover td { background: var(--bg-section); }
+
+.badge { display: inline-block; padding: 0.2rem 0.6rem; font-size: 0.55rem; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; }
+.badge-active { border: 1.5px solid var(--gold); color: var(--gold); background: #FFFBF0; }
+.badge-done { border: 1.5px solid var(--success); color: var(--success); background: #F0FFF4; }
+.badge-new { border: 1px solid var(--border-strong); color: var(--text-muted); }
+
+/* Toast */
+.toast {
+  position: fixed;
+  bottom: 1.5rem; right: 1.5rem;
+  background: var(--bg-dark);
+  border: 1px solid var(--gold-dark);
+  color: var(--text-muted);
+  padding: 0.85rem 1.25rem;
+  font-size: 0.78rem;
+  z-index: 9999;
+  transform: translateY(80px);
+  opacity: 0;
+  transition: all 0.3s ease;
+  max-width: 300px;
+  line-height: 1.5;
+}
+.toast.show { transform: translateY(0); opacity: 1; }
+
+@media (max-width: 600px) {
+  .top-bar { padding: 0.85rem 1rem; }
+  .main-content, .proto-body, .mapa-final-wrap, .admin-wrap { padding: 1rem; }
+  .protocols-grid { grid-template-columns: 1fr 1fr; }
+  .stats-row { grid-template-columns: 1fr 1fr; }
+  .landing-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1rem, 2.5vw, 1.4rem);
+  font-weight: 300;
+  letter-spacing: 0.15em;
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: 1.5rem;
+}
+}
+
+.landing-phrase span {
+  display: block;
+  margin-top: 0.5rem;
+}
+</style>
+</head>
+<body>
+
+<!-- LANDING -->
+<div id="screen-landing" class="screen active">
+  <img id="landing-logo" src="Logos%20LIE%20-%20Whats.png" class="landing-logo" alt="Matriz">
+  <h1 class="landing-title">MATRIZ</h1>
+  <div class="landing-phrase">
+    <strong>&ldquo;O que você não quer é exatamente o que você tem.&rdquo;</strong>
+    A sua Matriz está ativa há mais tempo do que você imagina.<br>E os resultados da sua vida provam isso.
+  </div>
+  <div class="landing-actions">
+    <button class="btn-gold" onclick="goTo('auth','register')">Começar agora</button>
+    <button class="btn-outline-light" onclick="goTo('auth','login')">Já tenho acesso</button>
+  </div>
+</div>
+
+<!-- AUTH -->
+<div id="screen-auth" class="screen">
+  <div class="auth-box">
+    <img id="auth-logo" src="Logos%20LIE%20-%20Whats.png" class="auth-logo" alt="Matriz">
+    <h2 class="auth-title">MATRIZ</h2>
+    <p class="auth-subtitle" id="auth-subtitle">Criar acesso</p>
+    <div id="field-name" class="form-group">
+      <label class="form-label">Seu nome</label>
+      <input type="text" class="form-input" id="input-name" placeholder="Como você se chama?">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Email</label>
+      <input type="email" class="form-input" id="input-email" placeholder="seu@email.com">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Senha</label>
+      <input type="password" class="form-input" id="input-password" placeholder="Mínimo 6 caracteres">
+      <div class="form-error" id="auth-error"></div>
+    </div>
+    <button class="btn-gold" style="width:100%" onclick="handleAuth()">
+      <span id="auth-btn-text">Criar minha Matriz</span>
+    </button>
+    <div class="auth-toggle" style="margin-top:1.25rem">
+      <span id="auth-toggle-label">Já tem acesso?</span>
+      <button class="btn-link" onclick="toggleAuth()" id="auth-toggle-btn" style="margin-left:0.4rem">Entrar</button>
+    </div>
+    <div style="text-align:center;margin-top:0.75rem">
+      <button class="btn-link-dim" onclick="goTo('landing')">← Voltar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN LOGIN (acesso via URL: ?admin) -->
+<div id="screen-admin-login" class="screen" style="background:var(--bg);align-items:center;justify-content:center">
+  <div class="auth-box" style="margin:auto">
+    <h2 class="auth-title">ADMIN</h2>
+    <p class="auth-subtitle">Painel de controle</p>
+    <div class="form-group">
+      <label class="form-label">Senha</label>
+      <input type="password" class="form-input" id="admin-pass" placeholder="••••••••">
+      <div class="form-error" id="admin-error"></div>
+    </div>
+    <button class="btn-gold" style="width:100%" onclick="handleAdminLogin()">Entrar</button>
+    <div style="text-align:center;margin-top:1rem">
+      <button class="btn-link-dim" onclick="goTo('landing')">← Voltar</button>
+    </div>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="screen-dashboard" class="screen">
+  <div class="top-bar">
+    <div class="top-bar-logo">
+      <img id="dash-logo" src="Logos%20LIE%20-%20Whats.png" alt="Matriz" style="width:28px;height:28px;object-fit:contain">
+      <span class="top-bar-logo-text">MATRIZ</span>
+    </div>
+    <div class="top-bar-right">
+      <span class="user-chip" id="dash-username"></span>
+      <button class="btn-action" onclick="logout()">Sair</button>
+    </div>
+  </div>
+  <div class="main-content">
+    <div class="daily-msg">
+      <div class="daily-msg-label">Orientação do dia</div>
+      <div class="daily-msg-text" id="daily-msg-text">Carregando...</div>
+    </div>
+    <div style="overflow:hidden;margin-bottom:0.5rem">
+      <span class="section-title">Sua jornada</span>
+      <span class="progress-label" id="progress-label">0 de 5</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+    </div>
+    <div class="protocols-grid" id="protocols-grid"></div>
+    <div class="conquistas-wrap">
+      <div class="section-title">Registrar conquista</div>
+      <div class="conquista-form">
+        <input type="text" class="form-input" id="conquista-input" placeholder="O que você conquistou?">
+        <button class="btn-sm" onclick="addConquista()">Registrar</button>
+      </div>
+      <div id="conquistas-list"></div>
+    </div>
+    <div id="mapa-final-cta" style="display:none">
+      <div class="divider"></div>
+      <button class="btn-primary" onclick="goTo('mapa-final')">Ver meu Mapa Completo →</button>
+    </div>
+    <div id="reset-cta" style="display:none;margin-top:1rem">
+      <button class="btn-link-dim" onclick="doReset()">Refazer protocolos (reset em 90 dias)</button>
+    </div>
+  </div>
+</div>
+
+<!-- PROTOCOL -->
+<div id="screen-protocol" class="screen">
+  <div class="top-bar">
+    <div class="top-bar-logo">
+      <img id="proto-logo" src="Logos%20LIE%20-%20Whats.png" alt="Matriz" style="width:28px;height:28px;object-fit:contain">
+      <span class="top-bar-logo-text">MATRIZ</span>
+    </div>
+    <button class="btn-action" onclick="goTo('dashboard')">← Voltar</button>
+  </div>
+  <div class="proto-page-header">
+    <div class="proto-header-info">
+      <div class="proto-header-num" id="ph-num"></div>
+      <div class="proto-header-name" id="ph-name"></div>
+    </div>
+  </div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('sobre',this)">Sobre</button>
+    <button class="tab-btn" onclick="switchTab('perguntas',this)">Perguntas</button>
+    <button class="tab-btn" onclick="switchTab('mapa',this)">Mapa</button>
+    <button class="tab-btn" onclick="switchTab('analise',this)">Análise</button>
+  </div>
+  <div class="proto-body">
+
+    <!-- SOBRE -->
+    <div class="tab-panel active" id="tp-sobre">
+      <div class="about-card">
+        <div class="about-label">O que é este protocolo</div>
+        <div class="about-text" id="about-oq"></div>
+      </div>
+      <div class="about-card">
+        <div class="about-label">Para que serve</div>
+        <div class="about-text" id="about-pq"></div>
+      </div>
+      <button class="btn-primary btn-full" style="margin-top:1rem" onclick="switchTab('perguntas',null)">
+        Começar as perguntas →
+      </button>
+    </div>
+
+    <!-- PERGUNTAS -->
+    <div class="tab-panel" id="tp-perguntas">
+      <div class="instrucao">Responda com o que vier primeiro — não o que você acha certo, o que é verdadeiro. Cada campo abaixo é o seu espaço. Não existe resposta errada.</div>
+      <div id="perguntas-list"></div>
+      <button class="btn-primary btn-full" style="margin-top:1.25rem" onclick="saveAndGoMapa()">
+        Salvar respostas e ver o mapa →
+      </button>
+    </div>
+
+    <!-- MAPA -->
+    <div class="tab-panel" id="tp-mapa">
+      <div class="instrucao">Leia cada padrão. Não analise — observe o que você <em>sente</em> ao ler. Toque nos padrões que mais se aproximam de você. Você pode selecionar até 3.</div>
+      <div id="mapa-list"></div>
+      <div class="metas-section">
+        <div class="metas-label">Suas metas para este protocolo (opcional — máximo 3)</div>
+        <div class="meta-row"><span class="meta-num">1.</span><input type="text" class="form-input" id="meta-1" placeholder="Meta 1"></div>
+        <div class="meta-row"><span class="meta-num">2.</span><input type="text" class="form-input" id="meta-2" placeholder="Meta 2"></div>
+        <div class="meta-row"><span class="meta-num">3.</span><input type="text" class="form-input" id="meta-3" placeholder="Meta 3"></div>
+      </div>
+      <div class="avaliacao-section">
+        <div class="section-title">Como está sendo esta experiência?</div>
+        <div class="stars-row" id="stars-row">
+          <button class="star-btn" onclick="setStar(1)">★</button>
+          <button class="star-btn" onclick="setStar(2)">★</button>
+          <button class="star-btn" onclick="setStar(3)">★</button>
+          <button class="star-btn" onclick="setStar(4)">★</button>
+          <button class="star-btn" onclick="setStar(5)">★</button>
+        </div>
+        <input type="text" class="form-input" id="rating-comment" placeholder="Comentário opcional...">
+      </div>
+      <button class="btn-primary btn-full" style="margin-top:1.25rem" onclick="gerarAnalise()">
+        Gerar minha análise personalizada →
+      </button>
+    </div>
+
+    <!-- ANÁLISE -->
+    <div class="tab-panel" id="tp-analise">
+      <div class="analise-box" id="analise-box">
+        <div id="analise-empty" class="analise-empty">Complete o mapa, selecione os padrões que se identificou e clique em "Gerar minha análise".</div>
+        <div id="analise-loading" style="display:none" class="analise-loading">
+          <div class="dots"><span></span><span></span><span></span></div>
+          <span>Gerando sua análise personalizada...</span>
+        </div>
+        <div id="analise-result" style="display:none;width:100%">
+          <div class="analise-nome" id="analise-nome"></div>
+          <div class="analise-text" id="analise-text"></div>
+        </div>
+      </div>
+      <div id="complete-btn-wrap" style="display:none;margin-top:1.25rem">
+        <button class="btn-primary btn-full" onclick="completarProtocolo()">
+          <span id="complete-btn-text">Concluir protocolo →</span>
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- MAPA FINAL -->
+<div id="screen-mapa-final" class="screen">
+  <div class="top-bar">
+    <div class="top-bar-logo">
+      <img id="mf-logo" src="Logos%20LIE%20-%20Whats.png" alt="Matriz" style="width:28px;height:28px;object-fit:contain">
+      <span class="top-bar-logo-text">MATRIZ</span>
+    </div>
+    <button class="btn-action" onclick="goTo('dashboard')">← Voltar</button>
+  </div>
+  <div class="mapa-final-wrap">
+    <h2 class="mapa-final-title">Sua Matriz</h2>
+    <p class="mapa-final-sub">O mapa completo do que foi revelado</p>
+    <div class="fecho-box" id="fecho-personalizado"></div>
+    <div id="mapa-protos-list"></div>
+    <div class="divider"></div>
+    <div class="fecho-box">
+      <div class="fecho-text">
+        <strong>A sua Matriz sempre esteve lá no comando da sua vida.</strong><br>
+        E o medo que você está sentindo agora — é a prova de que você a encontrou.<br><br>
+        Não é sua culpa. Mas é sua responsabilidade.<br>
+        Porque agora você sabe que ela existe. E o que você vê torna-se consciente.
+      </div>
+    </div>
+    <div style="margin-top:1.25rem">
+      <button class="btn-primary" onclick="window.print()">↓ Baixar / Imprimir meu mapa</button>
+    </div>
+    <div class="indicacao-box">
+      <div class="indicacao-title">Indique um(a) amigo(a) — fazer o bem faz bem.</div>
+      <div class="indicacao-text">Se a Matriz revelou algo importante para você, pode revelar para alguém que você ama. Compartilhe e ajude mais uma pessoa a ver o que está acontecendo com ela.</div>
+      <div class="share-btns">
+        <button class="btn-share" onclick="shareWhatsApp()">Compartilhar no WhatsApp</button>
+        <button class="btn-share" onclick="copyLink()">Copiar link</button>
+      </div>
+    </div>
+    <div id="comp-section" style="display:none">
+      <div class="divider"></div>
+      <div class="section-title" style="margin-bottom:1rem">Comparativo — sua evolução</div>
+      <div id="comp-content"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN -->
+<div id="screen-admin" class="screen">
+  <div class="top-bar">
+    <div class="top-bar-logo">
+      <span class="top-bar-logo-text" style="letter-spacing:0.15em">ADMIN</span>
+    </div>
+    <button class="btn-action" onclick="goTo('landing')">Sair</button>
+  </div>
+  <div class="admin-wrap">
+    <h2 class="admin-title">Painel de controle</h2>
+    <div class="stats-row" id="admin-stats"></div>
+    <div class="section-title" style="margin-bottom:1rem">Usuários cadastrados</div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Nome</th><th>Email</th><th>Protocolo atual</th>
+            <th>Status</th><th>Avaliação</th><th>Cadastro</th>
+          </tr>
+        </thead>
+        <tbody id="admin-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ADMIN acessa via ?admin na URL
+const ADMIN_PASS = 'matriz2024admin';
+
+function setLogos() {
+  ['landing-logo','auth-logo','dash-logo','proto-logo','mf-logo'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.src = LOGO_URL;
+  });
+}
+
+// ============================================================
+// DADOS
+// ============================================================
+const PROTOS = [
+  {
+    num:1, key:'origem', name:'Origem', desc:'Onde a sua Matriz foi criada',
+    oq:'O Protocolo Origem investiga onde a sua Matriz foi criada. Os primeiros 7 anos de vida são a fonte de 70% dos padrões emocionais que operam na vida adulta. Não porque você escolheu -- mas porque foi instalado antes que você tivesse consciência de escolha.',
+    pq:'Revelar onde está a raiz do que você vive hoje. Ao final deste protocolo, você vai identificar de onde vêm os padrões que se repetem na sua vida -- e que você nunca havia conectado à origem.',
+    perguntas:[
+      {q:'Como era a sua casa quando você era criança?',h:'Descreva o ambiente -- não as pessoas. A casa. O clima. O que você sentia quando chegava em casa.'},
+      {q:'Sua infância foi boa ou não foi?',h:'Responda em uma frase. Sem explicar ainda.'},
+      {q:'O que acontecia na sua casa quando algo dava errado?',h:'Quem reagia? Como reagia? O que você fazia quando isso acontecia?'},
+      {q:'Quando você estava triste ou com medo -- o que acontecia?',h:'Havia alguém que acolhia? Ou você ficava sozinho com isso?'},
+      {q:'O que você precisava fazer para receber atenção em casa?',h:'Não o que você queria fazer -- o que funcionava para ser visto.'},
+      {q:'Havia brigas na sua casa? Sobre o quê?',h:'Se sim -- o que era discutido com mais frequência? Dinheiro, relacionamento, filhos, trabalho?'},
+      {q:'Como seu pai demonstrava afeto -- ou não demonstrava?',h:'Descreva com uma cena real, se conseguir.'},
+      {q:'Como sua mãe demonstrava afeto -- ou não demonstrava?',h:'Descreva com uma cena real, se conseguir.'},
+      {q:'Você se sentia igual aos seus irmãos dentro de casa -- ou havia uma diferença que você sentia mas nunca nomeou?',h:'Se você é filho único -- como era ser o foco único da atenção dos seus pais?'},
+      {q:'O que seus pais falavam sobre dinheiro?',h:'Não o que ensinavam -- o que falavam no dia a dia, nas brigas, nas preocupações.'},
+      {q:'Havia algo que você não podia sentir em casa?',h:'Raiva, tristeza, medo, alegria excessiva -- havia emoções que eram proibidas ou ignoradas?'},
+      {q:'O que acontecia quando você discordava de um adulto em casa?',h:'Era permitido discordar? O que acontecia depois?'},
+      {q:'Você se lembra de se sentir envergonhado dentro de casa?',h:'Por quê? Quem fez você sentir isso?'},
+      {q:'O que seus pais esperavam de você?',h:'Não o que pediam -- o que você sentia que precisava ser para agradá-los.'},
+      {q:'Havia segredos na sua família?',h:'Coisas que todo mundo sabia mas ninguém falava? Assuntos proibidos?'},
+      {q:'Como era a relação entre seu pai e sua mãe?',h:'Havia afeto visível? Distância? Conflito? Indiferença?'},
+      {q:'Você se sentia seguro em casa -- emocionalmente?',h:'Podia ser quem você era sem medo de consequências?'},
+      {q:'Havia alguém na sua família que você admirava profundamente?',h:'Por quê? O que essa pessoa representava para você?'},
+      {q:'Havia alguém na sua família que te fazia sentir pequeno, incapaz ou inferior?',h:'Não precisa ter sido intencional. Bastava a sensação.'},
+      {q:'Se você pudesse voltar e mudar uma coisa da sua infância -- o que seria?',h:'A primeira coisa que vier. Sem pensar muito.'},
+      {q:'O que você jurou que nunca faria igual aos seus pais?',h:'E hoje -- faz?'},
+      {q:'Como você descreveria sua infância para um estranho em três palavras?',h:'Não pense. Escreva as três primeiras que vierem.'},
+    ],
+    padroes:[
+      {nome:'O que cresceu em alerta',frase:'Em casa havia uma tensão que eu sentia -- mas ninguém falava sobre ela.',sinais:['Lê o humor de todos ao entrar num ambiente','A paz te deixa desconfiado','O conflito parece familiar -- quase normal'],revela:'Você cresceu num ambiente onde o perigo era real -- mas nunca nomeado. Seu sistema nervoso aprendeu a monitorar tudo antes de relaxar. Hoje você ainda faz isso. A tensão parece normal. A calma parece suspeita.',base:'Freud, O Mal-Estar na Civilização: o ego se estrutura em resposta ao ambiente. Tensão constante na infância produz hipervigilância crônica no adulto.'},
+      {nome:'O que aprendeu a não sentir',frase:'Emoção não tinha muito espaço lá em casa.',sinais:['Resolve tudo sozinho -- não pede ajuda','É visto como forte, mas carrega um cansaço sem nome','Intimidade real é evitada sem perceber'],revela:'Na sua casa, sentir não tinha espaço. Então você aprendeu a guardar, a resolver sozinho, a não pedir. Hoje você é visto como forte. Mas por dentro carrega um cansaço que não consegue explicar.',base:'Bowlby, Apego e Perda: apego evitativo instalado na primeira infância como resposta à ausência emocional do cuidador.'},
+      {nome:'O que performou a vida inteira',frase:'Por fora tudo bem. Por dentro, um vazio sem nome.',sinais:['Alta performance externa, colapso interno','Dificuldade de saber o que realmente sente','Aprendeu a funcionar -- não a estar bem'],revela:'Por fora tudo parecia bem. Mas havia um vazio que você sentia e não conseguia nomear. Você aprendeu a funcionar, a parecer bem, a entregar o que esperavam.',base:'Alice Miller, O Drama da Criança Bem Dotada: adaptação da personalidade ao ambiente como estratégia de sobrevivência emocional.'},
+      {nome:'O que se perdeu no caos',frase:'Ora havia afeto, ora havia frieza -- sem explicação.',sinais:['Confunde intensidade com amor','Relacionamentos calmos parecem sem graça','Se atrai por quem gera muito -- mesmo que doa'],revela:'O amor na sua casa vinha em doses imprevisíveis. E então aprendeu a viver na intensidade -- porque era o único momento em que se sentia realmente vivo. Hoje você confunde intensidade com amor.',base:'Bowlby: apego ansioso-ambivalente formado pela imprevisibilidade do cuidador nos primeiros anos de vida.'},
+      {nome:'O que ficou pequeno para sobreviver',frase:'Havia uma regra não escrita: não ocupar espaço demais.',sinais:['Dificuldade de se posicionar e dizer não','Sabota quando está perto de algo grande','Busca aprovação antes de agir'],revela:'Em casa havia uma regra não escrita -- não se destacar demais. A aprovação era necessária para sobreviver emocionalmente. E você aprendeu a se moldar para obtê-la.',base:'Freud, O Ego e o Id: superego rígido instalado na infância como resposta à autoridade punitiva ou controladora.'},
+    ]
+  },
+  {
+    num:2,key:'verdade',name:'Verdade',desc:'O que foi instalado como verdade',
+    oq:'O Protocolo Verdade investiga o que foi instalado na origem e virou verdade. Crenças sobre dinheiro, amor, o que você merece, o que é possível para você. Essas verdades nunca foram questionadas -- porque pareciam simplesmente realidade.',
+    pq:'Revelar o que você acredita como verdade absoluta -- e que nunca questionou. Ao final deste protocolo, você vai identificar as crenças que definem o seu teto de merecimento, capacidade e possibilidade.',
+    perguntas:[
+      {q:'Qual era a profissão do seu pai? E da sua mãe?',h:'Descreva o que eles faziam -- e como você via esse trabalho quando criança.'},
+      {q:'Na sua casa, dinheiro era assunto de conversa -- ou era tabu?',h:'Como ele aparecia no dia a dia? Com preocupação, naturalidade, conflito, silêncio?'},
+      {q:'Você já teve a sensação de que estava indo longe demais -- e recuou?',h:'No trabalho, nos estudos, numa oportunidade. O que aconteceu dentro de você nesse momento?'},
+      {q:'Você acredita que merece ter mais do que seus pais tiveram?',h:'Responda sem pensar. A primeira resposta que vier.'},
+      {q:'Quando você conquista algo grande -- o que acontece depois?',h:'Um período de sabotagem, de gasto excessivo, de conflito?'},
+      {q:'Alguém na sua família já disse que você estava querendo demais?',h:'"Quem você pensa que é?" / "Não é pra nós." / "Não sonha alto demais."'},
+      {q:'O que você acredita que aconteceria nos seus relacionamentos se você ficasse muito bem-sucedido?',h:'Seja honesto. O que o inconsciente responde antes da razão organizar?'},
+      {q:'Você já se pegou ajudando financeiramente pessoas -- enquanto você mesmo estava no limite?',h:'Sem julgamento. Só observação.'},
+      {q:'O que significa para você ser bem-sucedido?',h:'A primeira definição que vier -- não a que você acha que deveria dar.'},
+      {q:'Você já adiou um projeto, uma decisão, uma mudança -- esperando o momento certo?',h:'Por quanto tempo? O momento certo chegou?'},
+      {q:'Como você reage quando alguém te elogia ou reconhece sua capacidade?',h:'Aceita naturalmente -- ou minimiza, desvia, justifica?'},
+      {q:'Se você pudesse ganhar dez vezes mais do que ganha hoje -- o que mudaria além do dinheiro?',h:'Nas suas relações, na sua rotina, no seu círculo.'},
+      {q:'Você já se sentiu culpado por ter mais do que alguém da sua família?',h:'Mais dinheiro, mais estudo, mais oportunidades, mais paz.'},
+      {q:'O que seus pais acreditavam sobre pessoas ricas ou bem-sucedidas?',h:'As frases que você ouviu. Os comentários sobre quem tinha mais.'},
+      {q:'Você acredita que sua capacidade atual é o seu limite?',h:'E se não chegou onde pode chegar -- o que tem impedido?'},
+    ],
+    padroes:[
+      {nome:'O teto invisível da capacidade',frase:'Eu sei que posso mais. Mas algo sempre me segura antes de ir longe demais.',sinais:['Busca posições seguras mesmo tendo capacidade para mais','O grande projeto fica sempre para depois','Crescer parece certo -- mas algo trava na hora de agir'],revela:'Você tem capacidade. O que está em dúvida é até onde é permitido ir. Inconscientemente, você opera dentro de um perímetro familiar -- o nível de sucesso que seus pais atingiram funciona como referência máxima.',base:'Bowen, Transmissão Multigeracional: os padrões de capacidade são transmitidos de geração em geração de forma inconsciente.'},
+      {nome:'A dúvida do merecimento',frase:'Será que eu mereço ter mais do que tive? Mais do que eles tiveram?',sinais:['Conquista algo grande -- e logo depois sabota','Dinheiro chega e vaza para todos ao redor','Dificuldade de receber reconhecimento sem minimizar'],revela:'Não é incompetência financeira. É o inconsciente devolvendo o excesso para caber de volta na estrutura familiar. A pergunta que opera por baixo de tudo é: "Quem sou eu para ter mais do que eles tiveram?"',base:'Freud, Além do Princípio do Prazer: a compulsão à repetição faz a pessoa reencenar o nível familiar mesmo quando conscientemente quer ir além.'},
+      {nome:'A lealdade que prende',frase:'Crescer demais parece me afastar de onde eu vim -- e de quem eu amo.',sinais:['Culpa quando tem mais do que a família','Ajuda financeiramente outros mesmo no limite','Sucesso parece traição -- não conquista'],revela:'Crescer para você tem um custo emocional que vai além do esforço. O inconsciente apresenta uma escolha falsa: pertencer ou prosperar. Como se os dois fossem incompatíveis.',base:'Abraham & Törok, Transmissão Psíquica Transgeracional: a herança psíquica familiar opera como um vínculo invisível.'},
+      {nome:'O dinheiro como ameaça',frase:'Na minha casa, dinheiro sempre veio acompanhado de briga, medo ou tensão.',sinais:['Relação ansiosa ou conflituosa com dinheiro','Evita falar sobre finanças -- ou obceca por controle','Prosperidade parece perigosa -- não libertadora'],revela:'Dinheiro para você nunca foi neutro. Na sua casa ele vinha com peso. O inconsciente aprendeu: dinheiro em quantidade traz problema.',base:'Freud, O Mal-Estar na Civilização: o cérebro emocional não distingue passado de presente.'},
+      {nome:'O momento certo que nunca chega',frase:'Quando tiver mais preparado, quando as condições melhorarem...',sinais:['Projetos adiados por anos -- sempre com boa justificativa','Prepara, estuda, planeja -- mas não executa','A espera parece prudência -- mas é proteção inconsciente'],revela:'O momento certo nunca chega -- porque ele não existe. Existe a crença de que você ainda não é suficiente para merecer agir.',base:'Alice Miller, O Drama da Criança Bem Dotada: a criança que precisou ser suficiente para receber amor aprende que agir antes de estar completamente pronta é arriscado.'},
+    ]
+  },
+  {
+    num:3,key:'teia',name:'Teia',desc:'O mundo que confirma o que você acredita',
+    oq:'O Protocolo Teia investiga o mundo que você construiu ao redor de si mesmo. As pessoas que escolheu, o ambiente que habita, os hábitos que mantém. Nada disso é acidente -- é a sua Matriz criando ao redor de você um espelho do que acredita.',
+    pq:'Revelar como o seu ambiente confirma e reforça a sua Matriz. Ao final deste protocolo, você vai identificar a teia que sustenta os seus padrões -- e que você chama de vida normal.',
+    perguntas:[
+      {q:'Descreva o lugar onde você mora.',h:'O bairro, a casa, o ambiente. Como você se sente quando chega em casa?'},
+      {q:'Quem são as cinco pessoas com quem você passa mais tempo?',h:'Descreva cada uma brevemente -- o que fazem, como pensam, o que falam.'},
+      {q:'Sobre o que as pessoas ao seu redor mais falam?',h:'Problemas, fofoca, reclamações -- ou negócios, possibilidades, crescimento?'},
+      {q:'Você já foi convidado para um ambiente visivelmente diferente do seu -- e sentiu que não pertencia?',h:'Uma festa, um evento, um lugar. O que você sentiu? O que fez?'},
+      {q:'Quais são os hábitos dominantes das pessoas ao seu redor?',h:'Alimentação, rotina, lazer, consumo. O que é considerado normal no seu círculo?'},
+      {q:'Há alguém no seu círculo que vive num nível significativamente diferente do seu?',h:'Como você se sente perto dessa pessoa? Inspirado -- ou desconfortável?'},
+      {q:'O que as pessoas ao seu redor acham de quem tem muito dinheiro ou muito sucesso?',h:'Admiram -- ou criticam, desconfiam, ressentem?'},
+      {q:'Você já abriu mão de uma oportunidade porque as pessoas ao seu redor não aprovaram?',h:'Seja honesto. Quantas vezes isso aconteceu?'},
+      {q:'Se você mudasse significativamente -- quem ficaria para trás?',h:'E como você se sente ao pensar nisso?'},
+      {q:'Qual é o tipo de conversa que nunca acontece no seu círculo atual?',h:'O que nunca é discutido, planejado, sonhado nas rodas que você frequenta?'},
+      {q:'Você se alimenta bem? Tem uma rotina? Cuida do corpo?',h:'Não como ideal -- como realidade. O que o seu ambiente torna fácil ou difícil manter?'},
+      {q:'Se você pudesse redesenhar completamente o seu ambiente -- o que seria diferente?',h:'A primeira resposta que vier. Sem filtro.'},
+    ],
+    padroes:[
+      {nome:'O círculo que confirma a escassez',frase:'Todo mundo ao meu redor vive mais ou menos como eu. Parece normal.',sinais:['Círculo próximo opera no mesmo nível financeiro e mental','Conversas giram em torno de problemas e reclamações','Prosperidade é tema distante -- quase abstrato'],revela:'O seu ambiente é um espelho perfeito das suas crenças. O inconsciente escolheu pessoas que confirmam o que ele já acredita. O círculo que opera no mesmo nível não desafia. Não provoca. Não expande.',base:'Bowen, Transmissão Multigeracional: o sistema emocional familiar define o nível de funcionamento que a pessoa considera normal.'},
+      {nome:'O lugar que não te cabe mais',frase:'Eu já cresci além daqui. Mas ainda não me movi.',sinais:['Sente que está além do ambiente -- mas permanece nele','Desconforto crescente com o círculo atual','Medo de se mover e perder quem ficou para trás'],revela:'Você já sabe que está além desse ambiente. Mas ainda não se moveu. Porque mover significa deixar pessoas para trás -- e o inconsciente traduz isso como abandono.',base:'Abraham & Törok: o vínculo com o grupo de origem cria uma herança psíquica que a pessoa carrega mesmo quando já não pertence mais àquele nível.'},
+      {nome:'O ambiente que critica quem sobe',frase:'No meu círculo, quem tem muito é visto com desconfiança ou inveja.',sinais:['Riqueza e sucesso são tratados com suspeita','Quem cresce é criticado -- não celebrado','Prosperar significa virar alvo'],revela:'O ambiente ao seu redor ensina que prosperar é perigoso. O inconsciente aprende: para ser aceito aqui, preciso não crescer demais.',base:'Freud, Psicologia das Massas e Análise do Ego: o grupo exerce uma força de nivelamento sobre o indivíduo.'},
+      {nome:'O ambiente que drena sem violência',frase:'As pessoas ao meu redor não são ruins. Mas também não me elevam.',sinais:['Círculo confortável mas estagnante','Não há provocação para crescer -- só para permanecer','A zona de conforto é coletiva -- e invisível'],revela:'Esse é o ambiente mais silencioso e mais perigoso. Porque não há conflito. Há apenas ausência de provocação. E a zona de conforto coletiva se torna o teto individual.',base:'Neurociência comportamental: sem estímulos que desafiem o padrão atual, o sistema nervoso se acomoda.'},
+      {nome:'O ambiente que você ainda não se autorizou a entrar',frase:'Conheço ambientes melhores. Mas quando estou lá, sinto que não pertenço.',sinais:['Já teve acesso a ambientes mais prósperos','Sensação de não pertencer -- mesmo sendo bem-vindo','Retorna ao ambiente conhecido por ser mais seguro'],revela:'Você já esteve lá. Mas voltou. Porque dentro daquele ambiente próspero algo dizia: "esse lugar não é pra mim." Não era a realidade. Era a crença.',base:'Bowlby, Teoria do Apego: a base segura define onde a pessoa acredita que é seguro estar.'},
+    ]
+  },
+  {
+    num:4,key:'entrega',name:'Entrega',desc:'O que a sua Matriz está entregando',
+    oq:'O Protocolo Entrega investiga o que a sua Matriz está entregando no campo profissional. Suas escolhas de carreira, seus resultados, o que você produz e o que você evita. A Matriz entrega resultados todos os dias -- enquanto você acredita que está no controle.',
+    pq:'Revelar como a sua Matriz opera nas suas decisões profissionais e nos seus resultados. Ao final deste protocolo, você vai identificar o padrão que define o que você entrega -- e o que você sabota.',
+    perguntas:[
+      {q:'Qual foi a primeira referência de trabalho que você teve?',h:'O que seu pai fazia? E sua mãe? Como você via o trabalho deles quando criança?'},
+      {q:'Como você escolheu o que faz hoje?',h:'Foi uma escolha consciente -- ou foi o caminho que apareceu e você seguiu?'},
+      {q:'Você sente que o que faz hoje tem propósito -- ou é só o que paga as contas?',h:'Seja honesto. As duas coisas podem ser verdade ao mesmo tempo.'},
+      {q:'Você já teve um sonho profissional que abandonou?',h:'O que era? Por que você abandonou? Quem ou o que te convenceu de que não era possível?'},
+      {q:'Você trabalha muito e o resultado não aparece na mesma proporção?',h:'Seja honesto sobre a relação entre esforço e resultado na sua vida.'},
+      {q:'Você já foi promovido -- ou estava prestes a ser -- e algo deu errado?',h:'Coincidência, conflito, decisão sua que destruiu a oportunidade.'},
+      {q:'Como você reage quando alguém reconhece publicamente o seu trabalho?',h:'Aceita com naturalidade -- ou minimiza, desvia, atribui a outros?'},
+      {q:'Você já recusou uma oportunidade porque achou que não estava pronto?',h:'Quantas vezes? O que você precisaria ter para se sentir pronto?'},
+      {q:'Você consegue separar seu valor como pessoa do seu resultado profissional?',h:'Quando as coisas vão mal no trabalho -- o que acontece com a sua autoestima?'},
+      {q:'Se o dinheiro não fosse um problema -- o que você faria com o seu tempo?',h:'A primeira resposta que vier. Sem filtro.'},
+      {q:'Você sente que trabalha para provar algo -- ou para realizar algo?',h:'Para quem você está provando? O que você está tentando demonstrar?'},
+      {q:'Qual é o maior obstáculo que você encontra repetidamente na sua carreira?',h:'Não o obstáculo externo. O interno. O que você faz -- ou deixa de fazer -- que te mantém no mesmo lugar?'},
+    ],
+    padroes:[
+      {nome:'A carreira que a origem escolheu',frase:'Não sei bem como cheguei aqui. Foi o caminho que apareceu -- e eu segui.',sinais:['Carreira escolhida por segurança -- não por propósito','Trabalho parecido com o dos pais','Sensação de que falta algo -- mas sem saber o quê'],revela:'Você não escolheu essa carreira -- ela foi o caminho de menor resistência que o inconsciente encontrou. Segura. Familiar. Próxima do que os pais representavam.',base:'Psicanálise aplicada: a identidade profissional é formada pela incorporação das figuras parentais.'},
+      {nome:'O propósito adiado',frase:'Eu sei o que quero fazer de verdade. Mas ainda não é hora.',sinais:['Sonho profissional claro -- mas sempre postergado','O momento certo nunca chega de fato','A vida real fica esperando a vida imaginada começar'],revela:'O propósito está claro. O problema não é não saber o que quer -- é não se autorizar a querer agora. O momento certo é uma construção do inconsciente para evitar o teste do merecimento.',base:'Alice Miller: a criança que precisou ser suficiente para receber amor aprende que agir antes de estar completamente pronta é arriscado.'},
+      {nome:'O trabalho como prova',frase:'Trabalho muito. Mais do que a maioria. Mas nunca parece suficiente.',sinais:['Esforço desproporcional ao resultado','Dificuldade de parar -- descansar parece culpa','Trabalha para provar capacidade -- não para realizar propósito'],revela:'Você trabalha para provar -- não para realizar. E a pergunta que opera por baixo de tudo é: para quem você está provando? Quase sempre a resposta tem um rosto da infância.',base:'Psicanálise: a implicação zelosa no trabalho pode ser uma tentativa inconsciente de reparar a relação com o objeto primário.'},
+      {nome:'A sabotagem próxima ao topo',frase:'Quando estou perto de algo grande -- algo sempre dá errado.',sinais:['Padrão repetido de recuo antes do grande salto','Conflitos ou decisões ruins aparecem no momento errado','O crescimento nunca se consolida'],revela:'O padrão é preciso demais para ser acaso. É o teto inconsciente de merecimento operando com precisão cirúrgica.',base:'Freud, Além do Princípio do Prazer: a compulsão à repetição faz a pessoa recriar as condições familiares mesmo quando conscientemente quer ir além.'},
+      {nome:'O vazio por trás do sucesso',frase:'Conquistei o que queria. Mas não sinto o que esperava sentir.',sinais:['Sucesso externo -- vazio interno','Realização profissional sem satisfação real','A conquista chegou -- mas o propósito ainda não'],revela:'Você chegou. E não sentiu o que esperava. Porque o sucesso que você conquistou não era o seu -- era o que acreditava que precisava conquistar para ser suficiente.',base:'Freud, O Mal-Estar na Civilização: quando o trabalho não está alinhado com o desejo real, a satisfação obtida é parcial.'},
+    ]
+  },
+  {
+    num:5,key:'prova',name:'Prova',desc:'O reflexo de tudo na sua vida hoje',
+    oq:'O Protocolo Prova é o espelho final. Aqui não investigamos o passado -- investigamos o presente. O corpo, o dinheiro, os relacionamentos, os comportamentos. É a Matriz em ação -- hoje, agora, na sua vida real.',
+    pq:'Revelar a prova concreta da sua Matriz em ação. Ao final deste protocolo -- e do somatório dos 5 -- você vai ter a visão completa do programa que estava operando enquanto você acreditava que estava escolhendo.',
+    perguntas:[
+      {q:'Você tem dinheiro -- ou você faz dinheiro mas ele nunca fica?',h:'Descreva sua relação real com o dinheiro hoje. Não o que deveria ser -- o que é.'},
+      {q:'Você está num relacionamento que sabe que não te faz bem -- mas não consegue sair?',h:'Seja honesto. Já pensou em terminar quantas vezes? O que te mantém?'},
+      {q:'Seu corpo está te dizendo algo que você está ignorando?',h:'Dores crônicas, doenças que aparecem e somem, peso que não sai ou não entra, cansaço constante.'},
+      {q:'Você virou o pai ou a mãe dos seus próprios pais?',h:'Você cuida deles emocionalmente, financeiramente, ou toma decisões que deveriam ser deles?'},
+      {q:'Você consegue dizer não -- sem culpa, sem explicação longa, sem ansiedade?',h:'Para qualquer pessoa. Parceiro, família, amigos, trabalho.'},
+      {q:'Você usa algo para anestesiar o que sente -- sem perceber que está fazendo isso?',h:'Celular, redes sociais, comida, bebida, trabalho excessivo, compras, séries.'},
+      {q:'Você acredita que sua vida atual é o máximo que pode ter?',h:'Não o que você diz para os outros. O que você acredita de verdade, quando está sozinho.'},
+      {q:'Você olha para pessoas prósperas, com relacionamentos saudáveis -- e o que sente?',h:'Inspiração? Inveja? Distância? A sensação de que aquilo é para outros -- não para você?'},
+      {q:'Você já tentou mudar -- e voltou para o mesmo lugar?',h:'Dieta, relacionamento, emprego, hábito. Quantas vezes você começou e voltou?'},
+      {q:'Você sente que a vida simplesmente acontece com você -- ou que você está no comando?',h:'Não o que você gostaria de sentir. O que você sente de verdade.'},
+      {q:'Se você pudesse ser completamente honesto -- sua vida hoje é o que você escolheria?',h:'O relacionamento, o trabalho, o lugar onde mora, as pessoas ao redor.'},
+    ],
+    padroes:[
+      {nome:'O dinheiro que não fica',frase:'Eu faço dinheiro. Mas ele some antes de acumular.',sinais:['Gastos impulsivos logo após uma entrada maior','Empresta ou doa quando não deveria','Dinheiro chega -- e uma urgência aparece para levá-lo'],revela:'Você não tem um problema financeiro. Você tem um teto de merecimento operando com precisão. Toda vez que o dinheiro chega em quantidade suficiente -- o inconsciente cria uma urgência.',base:'Freud + Bowen: a compulsão à repetição restaura o nível financeiro familiar toda vez que a pessoa ameaça ultrapassá-lo.'},
+      {nome:'O relacionamento que destrói e que não termina',frase:'Eu sei que não presta. Mas não consigo ir embora.',sinais:['Já pensou em terminar inúmeras vezes -- e ficou','Justifica o comportamento do outro repetidamente','A esperança de que vai mudar é mais forte do que a evidência'],revela:'Você não fica por fraqueza. Você fica porque esse relacionamento é familiar. A dor que ele produz é reconhecível -- é a mesma dor que você aprendeu a chamar de amor lá na origem.',base:'Bowlby + Freud: o modelo de apego formado na infância define o template relacional do adulto.'},
+      {nome:'O corpo que fala o que a mente cala',frase:'Tenho dores, doenças, peso que não sai. O médico não acha nada.',sinais:['Dores crônicas sem causa orgânica clara','Peso que resiste a qualquer esforço','Cansaço constante, doenças em momentos de pressão'],revela:'O seu corpo está dizendo o que a sua mente não consegue verbalizar. São o inconsciente encontrando uma saída pelo físico para conflitos que não têm outro lugar para ir.',base:'Freud, Estudos sobre a Histeria: "nenhum mortal pode guardar um segredo -- se sua boca permanece em silêncio, falarão as pontas de seus dedos."'},
+      {nome:'O não que nunca sai',frase:'Eu não consigo dizer não. Para ninguém. E me ressinto depois.',sinais:['Aceita o que não quer para não decepcionar','Virou pai ou mãe dos próprios pais -- ou do parceiro','Carrega o peso dos outros como se fosse obrigação'],revela:'Você aprendeu cedo que o seu valor estava em servir. Em não decepcionar. Dizer não sempre pareceu abandono.',base:'Alice Miller + Teoria do Apego: a criança que adapta a personalidade para ser aceita aprende que suas necessidades são secundárias.'},
+      {nome:'A anestesia que parece descanso',frase:'Quando algo pesa demais, eu entro no celular, na comida, na bebida -- e não percebo.',sinais:['Uso compulsivo de celular, redes sociais ou entretenimento','Comida, álcool ou compras como resposta emocional automática','Trabalho excessivo usado como fuga'],revela:'A anestesia não parece fuga -- parece descanso. Parece lazer. Parece merecido. Mas é o inconsciente gerenciando a pressão que não tem nome.',base:'Freud + Neuropsicanálise: o sistema de recompensa do cérebro é recrutado pelo inconsciente para aliviar tensões emocionais.'},
+      {nome:'A crença de que isso é o destino',frase:'Todo mundo vive assim. É a vida. Não tem como ser diferente.',sinais:['Resignação disfarçada de maturidade','Para de tentar mudar -- justifica como aceitação','Olha para quem vive diferente e acredita que aquilo não é para si'],revela:'Essa é a trava mais perigosa de todas -- porque parece sabedoria. Chama de destino o que é padrão. Chama de vida o que é somatório de escolhas inconscientes.',base:'Freud, O Mal-Estar na Civilização: a crença de que a vida atual é o destino é o padrão instalado tendo vencido completamente.'},
+    ]
+  }
+];
+
+const DAILY_MSGS=[
+  'Hoje, observe uma reação automática sua. Não julgue. Apenas observe. De onde ela vem?',
+  'O que você está evitando hoje? A evitação é sempre uma pista da sua Matriz.',
+  'Pense numa pessoa que te incomoda. O que ela representa que você não aceita em si mesmo?',
+  'Qual foi a última vez que você disse não sem se sentir culpado? O que foi diferente nessa vez?',
+  'Hoje, antes de uma decisão, pergunte: estou escolhendo por mim -- ou pelo padrão?',
+  'Observe suas conversas hoje. Você fala mais sobre pessoas, sobre problemas, ou sobre possibilidades?',
+  'Que emoção você mais evita sentir? Hoje, tente apenas nomeá-la quando aparecer.',
+  'O que sua família diria se soubesse que você está mudando? A resposta revela algo importante.',
+  'Hoje, identifique um momento em que você foi menor do que poderia ser. Sem julgamento.',
+  'Que conquista você adiou mais de uma vez? Hoje é um bom dia para dar o primeiro passo.',
+  'Seu corpo está confortável agora? Tensão no ombro, maxilar cerrado -- o corpo guarda o que a mente nega.',
+  'Com quem você gasta sua energia hoje? Essa pessoa te expande ou te mantém no mesmo lugar?',
+  'Quando foi a última vez que você fez algo pela primeira vez?',
+  'O que você diria para seu eu de 10 anos atrás sobre o que você sabe hoje?',
+];
+
+// ============================================================
+// ESTADO E STORAGE
+// ============================================================
+let S={user:null,proto:null,selectedPadroes:[],rating:0,authMode:'register'};
+
+const DB={
+  getUsers:()=>{try{return JSON.parse(localStorage.getItem('mz_users')||'[]');}catch{return [];}},
+  saveUsers:u=>localStorage.setItem('mz_users',JSON.stringify(u)),
+  getCurrent:()=>{try{return JSON.parse(localStorage.getItem('mz_cur')||'null');}catch{return null;}},
+  saveCurrent:u=>localStorage.setItem('mz_cur',JSON.stringify(u)),
+  getUser:email=>DB.getUsers().find(u=>u.email===email)||null,
+  updateUser:(email,data)=>{
+    const users=DB.getUsers();
+    const i=users.findIndex(u=>u.email===email);
+    if(i>=0){users[i]={...users[i],...data};DB.saveUsers(users);}
+    if(S.user?.email===email){S.user={...S.user,...data};DB.saveCurrent(S.user);}
+  }
+};
+
+// ============================================================
+// NAVEGAÇÃO
+// ============================================================
+function goTo(screen,param){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('screen-'+screen).classList.add('active');
+  window.scrollTo(0,0);
+  if(screen==='dashboard')renderDash();
+  if(screen==='auth'){S.authMode=param||'register';renderAuth();}
+  if(screen==='admin')renderAdmin();
+  if(screen==='mapa-final')renderMapaFinal();
+}
+
+// ============================================================
+// AUTH
+// ============================================================
+function toggleAuth(){S.authMode=S.authMode==='login'?'register':'login';renderAuth();}
+
+function renderAuth(){
+  const l=S.authMode==='login';
+  document.getElementById('auth-subtitle').textContent=l?'Entrar':'Criar acesso';
+  document.getElementById('field-name').style.display=l?'none':'block';
+  document.getElementById('auth-btn-text').textContent=l?'Entrar':'Criar minha Matriz';
+  document.getElementById('auth-toggle-label').textContent=l?'Não tem acesso?':'Já tem acesso?';
+  document.getElementById('auth-toggle-btn').textContent=l?'Criar agora':'Entrar';
+  document.getElementById('auth-error').textContent='';
+}
+
+function handleAuth(){
+  const email=document.getElementById('input-email').value.trim().toLowerCase();
+  const pass=document.getElementById('input-password').value;
+  const name=document.getElementById('input-name').value.trim();
+  const err=document.getElementById('auth-error');
+  if(!email||!pass){err.textContent='Preencha email e senha.';return;}
+  if(S.authMode==='register'){
+    if(!name){err.textContent='Informe seu nome.';return;}
+    if(pass.length<6){err.textContent='Senha mínimo 6 caracteres.';return;}
+    const users=DB.getUsers();
+    if(users.find(u=>u.email===email)){err.textContent='Email já cadastrado.';return;}
+    const nu={name,email,pass,createdAt:new Date().toISOString(),protocols:{},conquistas:[],resetCount:0,resetAt:null,previousData:null};
+    users.push(nu);DB.saveUsers(users);
+    S.user=nu;DB.saveCurrent(nu);goTo('dashboard');
+  }else{
+    const user=DB.getUsers().find(u=>u.email===email&&u.pass===pass);
+    if(!user){err.textContent='Email ou senha incorretos.';return;}
+    S.user=user;DB.saveCurrent(user);goTo('dashboard');
+  }
+}
+
+function logout(){S.user=null;localStorage.removeItem('mz_cur');goTo('landing');}
+
+function handleAdminLogin(){
+  const pass=document.getElementById('admin-pass').value;
+  if(pass===ADMIN_PASS)goTo('admin');
+  else document.getElementById('admin-error').textContent='Senha incorreta.';
+}
+
+// ============================================================
+// DASHBOARD
+// ============================================================
+function renderDash(){
+  if(!S.user){goTo('landing');return;}
+  const u=DB.getUser(S.user.email);
+  if(!u){goTo('landing');return;}
+  S.user=u;
+  document.getElementById('dash-username').textContent=u.name.split(' ')[0].toUpperCase();
+
+  const days=Math.floor((Date.now()-new Date(u.createdAt).getTime())/86400000);
+  let msg=DAILY_MSGS[days%DAILY_MSGS.length];
+  const patterns=[];
+  PROTOS.forEach(p=>{const pd=u.protocols[p.key];if(pd?.selectedPadroes)pd.selectedPadroes.forEach(i=>{if(p.padroes[i])patterns.push(p.padroes[i].nome);});});
+  if(patterns.length){const pat=patterns[days%patterns.length];msg=`${u.name.split(' ')[0]}, você identificou "${pat}" na sua Matriz. ${msg}`;}
+  document.getElementById('daily-msg-text').textContent=msg;
+
+  const done=PROTOS.filter(p=>u.protocols[p.key]?.completed).length;
+  document.getElementById('progress-label').textContent=`${done} de 5 protocolos concluídos`;
+  document.getElementById('progress-fill').style.width=(done/5*100)+'%';
+
+  const grid=document.getElementById('protocols-grid');
+  grid.innerHTML='';
+  PROTOS.forEach((p,i)=>{
+    const pd=u.protocols[p.key]||{};
+    const prevDone=i===0||u.protocols[PROTOS[i-1].key]?.completed;
+    let canOpen=i===0||(u.protocols[PROTOS[i-1].key]?.completedAt);
+    const isCompleted=!!pd.completed;
+    const isUnlocked=canOpen&&prevDone;
+    const isLocked=!isUnlocked&&!isCompleted;
+    const div=document.createElement('div');
+    div.className=`proto-card ${isCompleted?'completed':isUnlocked?'unlocked':'locked'}`;
+    if(!isLocked)div.onclick=()=>openProto(p.key);
+    div.innerHTML=`
+      ${isCompleted?'<div class="proto-badge">✓</div>':''}
+      <div class="proto-num">Protocolo ${p.num}</div>
+      <div class="proto-name">${p.name}</div>
+      <div class="proto-desc">${p.desc}</div>
+      ${isLocked?'<div class="proto-lock">🔒 Conclua o anterior</div>':''}
+      ${pd.rating?`<div class="proto-stars">${'★'.repeat(pd.rating)}${'☆'.repeat(5-pd.rating)}</div>`:''}
+    `;
+    grid.appendChild(div);
+  });
+
+  renderConquistas(u);
+  document.getElementById('mapa-final-cta').style.display=done===5?'block':'none';
+  document.getElementById('reset-cta').style.display=done===5&&!u.resetAt?'block':'none';
+}
+
+function renderConquistas(u){
+  const list=document.getElementById('conquistas-list');
+  list.innerHTML='';
+  (u.conquistas||[]).slice().reverse().slice(0,5).forEach(c=>{
+    const div=document.createElement('div');div.className='conquista-item';
+    div.innerHTML=`<span class="conquista-star">★</span><div><div class="conquista-text">${c.text}</div><div class="conquista-date">${new Date(c.date).toLocaleDateString('pt-BR')}</div></div>`;
+    list.appendChild(div);
+  });
+}
+
+function addConquista(){
+  const inp=document.getElementById('conquista-input');
+  const text=inp.value.trim();if(!text)return;
+  const u=DB.getUser(S.user.email);
+  const c=[...(u.conquistas||[]),{text,date:new Date().toISOString()}];
+  DB.updateUser(S.user.email,{conquistas:c});
+  inp.value='';renderConquistas(DB.getUser(S.user.email));toast('Conquista registrada! ★');
+}
+
+// ============================================================
+// PROTOCOLO
+// ============================================================
+function openProto(key){
+  const p=PROTOS.find(p=>p.key===key);if(!p)return;
+  S.proto=key;S.selectedPadroes=[];S.rating=0;
+  document.getElementById('ph-num').textContent=`Protocolo ${p.num}`;
+  document.getElementById('ph-name').textContent=p.name;
+  document.getElementById('about-oq').textContent=p.oq;
+  document.getElementById('about-pq').textContent=p.pq;
+
+  const u=DB.getUser(S.user.email);
+  const pd=u.protocols[key]||{};
+
+  const list=document.getElementById('perguntas-list');
+  list.innerHTML='';
+  p.perguntas.forEach((q,i)=>{
+    const saved=pd.respostas?.[i]||'';
+    const div=document.createElement('div');div.className='pergunta-wrap';
+    div.innerHTML=`
+      <div class="pergunta-top">
+        <div class="pergunta-counter">Pergunta ${i+1} de ${p.perguntas.length}</div>
+        <div class="pergunta-text">${q.q}</div>
+        <div class="pergunta-hint">${q.h}</div>
+      </div>
+      <div class="pergunta-answer-wrap">
+        <div class="pergunta-answer-label">Sua resposta</div>
+        <textarea class="pergunta-answer" id="r${i}" placeholder="Escreva aqui...">${saved}</textarea>
+      </div>
+    `;
+    list.appendChild(div);
+  });
+
+  S.selectedPadroes=pd.selectedPadroes||[];
+  renderMapa(p,pd);
+
+  ['1','2','3'].forEach(n=>{const el=document.getElementById('meta-'+n);if(el)el.value=pd.metas?.[n-1]||'';});
+  S.rating=pd.rating||0;renderStars();
+  const rc=document.getElementById('rating-comment');if(rc)rc.value=pd.ratingComment||'';
+
+  if(pd.analise){
+    document.getElementById('analise-empty').style.display='none';
+    document.getElementById('analise-loading').style.display='none';
+    document.getElementById('analise-result').style.display='block';
+    document.getElementById('analise-nome').textContent=S.user.name.split(' ')[0]+', sua análise:';
+    document.getElementById('analise-text').textContent=pd.analise;
+    document.getElementById('complete-btn-wrap').style.display='block';
+    document.getElementById('complete-btn-text').textContent=pd.completed?'Protocolo concluído ✓':'Concluir protocolo →';
+  }else{
+    document.getElementById('analise-empty').style.display='block';
+    document.getElementById('analise-loading').style.display='none';
+    document.getElementById('analise-result').style.display='none';
+    document.getElementById('complete-btn-wrap').style.display='none';
+  }
+
+  switchTab('sobre',null);goTo('protocol');
+}
+
+function renderMapa(p,pd){
+  S.selectedPadroes=pd.selectedPadroes||[];
+  const list=document.getElementById('mapa-list');list.innerHTML='';
+  p.padroes.forEach((padrao,i)=>{
+    const sel=S.selectedPadroes.includes(i);
+    const div=document.createElement('div');div.className=`padrao-card ${sel?'selected':''}`;
+    div.onclick=()=>togglePadrao(i);
+    div.innerHTML=`
+      <div class="check-box">${sel?'✓':''}</div>
+      <div class="padrao-num">padrão ${String(i+1).padStart(2,'0')}</div>
+      <div class="padrao-nome">${padrao.nome}</div>
+      <div class="padrao-frase">"${padrao.frase}"</div>
+      <ul class="padrao-sinais">${padrao.sinais.map(s=>`<li>${s}</li>`).join('')}</ul>
+      <div class="padrao-revelacao">
+        <div class="rev-label">O que esse padrão revela</div>
+        <div class="rev-text">${padrao.revela}</div>
+        <div class="rev-base">${padrao.base}</div>
+      </div>
+    `;
+    list.appendChild(div);
+  });
+}
+
+function togglePadrao(idx){
+  if(S.selectedPadroes.includes(idx)){S.selectedPadroes=S.selectedPadroes.filter(i=>i!==idx);}
+  else{if(S.selectedPadroes.length>=3){toast('Selecione no máximo 3 padrões.');return;}S.selectedPadroes.push(idx);}
+  const p=PROTOS.find(p=>p.key===S.proto);
+  const u=DB.getUser(S.user.email);
+  renderMapa(p,{...(u.protocols[S.proto]||{}),selectedPadroes:S.selectedPadroes});
+}
+
+function switchTab(tab,btn){
+  const tabs=['sobre','perguntas','mapa','analise'];
+  document.querySelectorAll('.tab-btn').forEach((b,i)=>b.classList.toggle('active',tabs[i]===tab));
+  document.querySelectorAll('.tab-panel').forEach((p,i)=>p.classList.toggle('active',tabs[i]===tab));
+}
+
+function saveAndGoMapa(){
+  const p=PROTOS.find(p=>p.key===S.proto);
+  const respostas=p.perguntas.map((_,i)=>{const el=document.getElementById('r'+i);return el?el.value:'';});
+  const u=DB.getUser(S.user.email);
+  const protocols={...u.protocols};
+  protocols[S.proto]={...(protocols[S.proto]||{}),respostas};
+  DB.updateUser(S.user.email,{protocols});
+  toast('Respostas salvas!');switchTab('mapa',null);
+}
+
+function setStar(n){S.rating=n;renderStars();}
+function renderStars(){document.querySelectorAll('.star-btn').forEach((b,i)=>b.classList.toggle('lit',i<S.rating));}
+
+async function gerarAnalise(){
+  if(S.selectedPadroes.length===0){toast('Selecione pelo menos 1 padrão antes de gerar a análise.');return;}
+  const metas=['1','2','3'].map(n=>{const el=document.getElementById('meta-'+n);return el?el.value.trim():'';}).filter(Boolean);
+  const rc=document.getElementById('rating-comment');const ratingComment=rc?rc.value:'';
+  const u=DB.getUser(S.user.email);
+  const p=PROTOS.find(p=>p.key===S.proto);
+  const protocols={...u.protocols};
+  protocols[S.proto]={...(protocols[S.proto]||{}),selectedPadroes:S.selectedPadroes,metas,rating:S.rating,ratingComment};
+  DB.updateUser(S.user.email,{protocols});
+  switchTab('analise',null);
+  document.getElementById('analise-empty').style.display='none';
+  document.getElementById('analise-result').style.display='none';
+  document.getElementById('analise-loading').style.display='flex';
+  document.getElementById('complete-btn-wrap').style.display='none';
+
+  const firstName=u.name.split(' ')[0];
+  const padroesSel=S.selectedPadroes.map(i=>p.padroes[i]);
+  const padraoNomes=padroesSel.map(p=>p.nome).join(', ');
+  const padraoRevs=padroesSel.map(p=>`${p.nome}: ${p.revela}`).join('\n\n');
+  const respostas=(protocols[S.proto].respostas||[]).slice(0,6).map((r,i)=>r?`Q${i+1}: ${p.perguntas[i].q}\nR: ${r}`:'').filter(Boolean).join('\n\n');
+
+  const prompt=`Você é especialista em Neuropsicanálise e desenvolvimento humano. Gere uma orientação personalizada para ${firstName} com base nos padrões identificados no Protocolo ${p.num} -- ${p.name} do método Matriz.
+
+REGRAS:
+- Use o nome ${firstName} naturalmente
+- Linguagem informal, acolhedora, direta -- como uma conversa
+- NÃO faça diagnóstico. É uma orientação, não tratamento
+- Base nos conceitos de Freud, Bowlby, Alice Miller, transgeracionalidade
+- Conecte as respostas com os padrões identificados
+- Seja ESPECÍFICO -- a pessoa precisa sentir que foi escrito só para ela
+- 3 a 4 parágrafos
+- NUNCA use: diagnóstico, transtorno, patologia, doença
+- USE: padrão, Matriz, inconsciente, origem, revelação, orientação
+
+PADRÕES IDENTIFICADOS:
+${padraoNomes}
+
+O QUE REVELAM:
+${padraoRevs}
+
+RESPOSTAS DA PESSOA:
+${respostas||'A pessoa preferiu não detalhar as respostas.'}
+
+Gere a orientação personalizada para ${firstName}:`;
+
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompt}]})});
+    const data=await res.json();
+    const text=data.content?.[0]?.text||analiseLocal(firstName,padroesSel);
+    salvarAnalise(text);
+  }catch{salvarAnalise(analiseLocal(firstName,padroesSel));}
+}
+
+function analiseLocal(nome,padroes){
+  const nomes=padroes.map(p=>p.nome).join(' e ');
+  const rev=padroes[0]?.revela||'';
+  return `${nome}, o que você revelou neste protocolo é significativo. Você se identificou com ${nomes} -- e isso não é coincidência.\n\n${rev}\n\nLembre: isso não é um defeito seu. É o que foi instalado. E o que foi instalado -- pode ser visto. O que pode ser visto -- você decide o que faz com ele.`;
+}
+
+function salvarAnalise(text){
+  const u=DB.getUser(S.user.email);
+  const protocols={...u.protocols};
+  protocols[S.proto]={...(protocols[S.proto]||{}),analise:text};
+  DB.updateUser(S.user.email,{protocols});
+  document.getElementById('analise-loading').style.display='none';
+  document.getElementById('analise-result').style.display='block';
+  document.getElementById('analise-nome').textContent=S.user.name.split(' ')[0]+', sua análise:';
+  document.getElementById('analise-text').textContent=text;
+  document.getElementById('complete-btn-wrap').style.display='block';
+}
+
+function completarProtocolo(){
+  const u=DB.getUser(S.user.email);
+  const protocols={...u.protocols};
+  if(!protocols[S.proto])protocols[S.proto]={};
+  protocols[S.proto].completed=true;
+  protocols[S.proto].completedAt=new Date().toISOString();
+  DB.updateUser(S.user.email,{protocols});
+  toast('Protocolo concluído! ✓');
+  const idx=PROTOS.findIndex(p=>p.key===S.proto);
+  setTimeout(()=>{idx===PROTOS.length-1?goTo('mapa-final'):goTo('dashboard');},800);
+}
+
+// ============================================================
+// MAPA FINAL
+// ============================================================
+function renderMapaFinal(){
+  const u=DB.getUser(S.user.email);
+  const firstName=u.name.split(' ')[0];
+  const allPatterns=[];
+  PROTOS.forEach(p=>{const pd=u.protocols[p.key];if(pd?.selectedPadroes)pd.selectedPadroes.forEach(i=>{if(p.padroes[i])allPatterns.push(p.padroes[i].nome);});});
+  const fecho=allPatterns.length?`${firstName}, ao longo dos 5 protocolos, sua Matriz se revelou através de padrões muito específicos: ${allPatterns.join(', ')}. Esses padrões não são quem você é -- são o que foi instalado antes que você tivesse escolha. E agora que você os vê, algo muda. Não é sua culpa. Mas é sua responsabilidade.`:`${firstName}, você completou os 5 protocolos da Matriz. O que você vê agora não é destino -- é o somatório de padrões que estavam operando enquanto você acreditava que estava escolhendo.`;
+  document.getElementById('fecho-personalizado').innerHTML=`<div class="fecho-text">${fecho}</div>`;
+
+  const list=document.getElementById('mapa-protos-list');list.innerHTML='';
+  PROTOS.forEach(p=>{
+    const pd=u.protocols[p.key]||{};
+    const tags=(pd.selectedPadroes||[]).map(i=>p.padroes[i]?.nome).filter(Boolean);
+    const div=document.createElement('div');div.className='mapa-proto-item';
+    div.innerHTML=`
+      <div class="mapa-proto-header"><span class="mapa-proto-num">Protocolo ${p.num}</span><span class="mapa-proto-name">${p.name}</span></div>
+      ${tags.length?`<div class="padroes-tags">${tags.map(t=>`<span class="padrao-tag">${t}</span>`).join('')}</div>`:'<div style="font-size:0.7rem;color:var(--text-dim);font-style:italic">Não concluído</div>'}
+      ${pd.analise?`<div class="mapa-analise-preview">${pd.analise.substring(0,180)}...</div>`:''}
+      ${pd.metas?.length?`<div style="margin-top:0.6rem;font-size:0.68rem;color:var(--text-muted)">Metas: ${pd.metas.join(' · ')}</div>`:''}
+    `;
+    list.appendChild(div);
+  });
+
+  if(u.previousData){
+    document.getElementById('comp-section').style.display='block';
+    const cc=document.getElementById('comp-content');cc.innerHTML='';
+    PROTOS.forEach(p=>{
+      const antes=(u.previousData.protocols?.[p.key]?.selectedPadroes||[]).map(i=>p.padroes[i]?.nome).filter(Boolean);
+      const depois=(u.protocols[p.key]?.selectedPadroes||[]).map(i=>p.padroes[i]?.nome).filter(Boolean);
+      if(!antes.length&&!depois.length)return;
+      const div=document.createElement('div');div.className='comp-box';
+      div.innerHTML=`<div class="comp-proto-name">Protocolo ${p.num} -- ${p.name}</div><div class="comp-cols"><div class="comp-col"><div class="comp-col-label">Antes</div><div class="comp-tags">${antes.length?antes.map(n=>`<span class="comp-tag-antes">${n}</span>`).join(''):'<span style="font-size:0.65rem;color:var(--text-dim)">--</span>'}</div></div><div class="comp-arrow">→</div><div class="comp-col"><div class="comp-col-label">Agora</div><div class="comp-tags">${depois.length?depois.map(n=>`<span class="comp-tag-depois">${n}</span>`).join(''):'<span style="font-size:0.65rem;color:var(--text-dim)">--</span>'}</div></div></div>`;
+      cc.appendChild(div);
+    });
+  }
+}
+
+function doReset(){
+  if(!confirm('Deseja refazer os protocolos? Suas respostas anteriores serão guardadas para comparação.'))return;
+  const u=DB.getUser(S.user.email);
+  DB.updateUser(S.user.email,{protocols:{},previousData:{protocols:JSON.parse(JSON.stringify(u.protocols))},resetCount:(u.resetCount||0)+1,resetAt:new Date().toISOString()});
+  toast('Protocolos reiniciados. Sua jornada recomeça agora.');renderDash();
+}
+
+function shareWhatsApp(){const url=encodeURIComponent(window.location.href);const msg=encodeURIComponent('Descobri algo importante sobre mim através da Matriz. Você precisa fazer isso também: ');window.open(`https://wa.me/?text=${msg}${url}`,'_blank');}
+function copyLink(){navigator.clipboard.writeText(window.location.href).then(()=>toast('Link copiado!')).catch(()=>toast('Copie o link da barra de endereço.'));}
+
+// ============================================================
+// ADMIN
+// ============================================================
+function renderAdmin(){
+  const users=DB.getUsers();
+  const done=users.filter(u=>PROTOS.every(p=>u.protocols?.[p.key]?.completed)).length;
+  let rSum=0,rCount=0;
+  users.forEach(u=>PROTOS.forEach(p=>{const pd=u.protocols?.[p.key];if(pd?.rating){rSum+=pd.rating;rCount++;}}));
+  const avgR=rCount?(rSum/rCount).toFixed(1):'--';
+  document.getElementById('admin-stats').innerHTML=`
+    <div class="stat-card"><div class="stat-num">${users.length}</div><div class="stat-label">Usuários</div></div>
+    <div class="stat-card"><div class="stat-num">${done}</div><div class="stat-label">Completaram tudo</div></div>
+    <div class="stat-card"><div class="stat-num">${avgR}</div><div class="stat-label">Avaliação média</div></div>
+    <div class="stat-card"><div class="stat-num">${users.filter(u=>Object.keys(u.protocols||{}).length>0).length}</div><div class="stat-label">Em andamento</div></div>
+  `;
+  const tbody=document.getElementById('admin-tbody');tbody.innerHTML='';
+  users.forEach(u=>{
+    const c=PROTOS.filter(p=>u.protocols?.[p.key]?.completed).length;
+    const cur=c<5?(PROTOS[c]?.name||'--'):'Concluído';
+    let rs=[];PROTOS.forEach(p=>{const pd=u.protocols?.[p.key];if(pd?.rating)rs.push(pd.rating);});
+    const ar=rs.length?(rs.reduce((a,b)=>a+b,0)/rs.length).toFixed(1):'--';
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td>${u.name}</td><td>${u.email}</td><td>${cur}</td><td><span class="badge ${c===5?'badge-done':c>0?'badge-active':'badge-new'}">${c===5?'Concluído':c>0?'Em andamento':'Novo'}</span></td><td>${ar!=='--'?'★'.repeat(Math.round(Number(ar))):''} ${ar}</td><td>${new Date(u.createdAt).toLocaleDateString('pt-BR')}</td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+// ============================================================
+// TOAST
+// ============================================================
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
+
+// ============================================================
+// INIT
+// ============================================================
+window.onload=()=>{
+  // Acesso admin via ?admin na URL
+  if(window.location.search.includes('admin')){goTo('admin-login');return;}
+  const saved=DB.getCurrent();
+  if(saved){S.user=saved;goTo('dashboard');}
+};
+</script>
+</body>
+</html>
