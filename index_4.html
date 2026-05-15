@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>MATRIZ</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+:root{--gold:#B8820F;--gold-light:#D4A030;--gold-dark:#8B6208;--gold-muted:#C9A44A;--bg:#F5F0E8;--bg-card:#FFFFFF;--bg-input:#FAFAF7;--bg-section:#EDE8DC;--border:#D8CEBC;--border-strong:#B8A88A;--text:#1A1610;--text-muted:#6B5E4A;--text-dim:#A09070;}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+body{background:var(--bg);color:var(--text);font-family:'Montserrat',sans-serif;font-size:14px;min-height:100vh;max-width:520px;margin:0 auto;}
+.screen{display:none;min-height:100vh;flex-direction:column;}
+.screen.active{display:flex;}
+#screen-landing{align-items:center;justify-content:center;text-align:center;padding:3rem 2rem;background:var(--bg);min-height:100vh;}
+.landing-logo{width:128px;height:128px;object-fit:contain;display:block;margin:0 auto 1.5rem;}
+.landing-title{font-family:'Cormorant Garamond',serif;font-size:clamp(1rem,2.5vw,1.4rem);font-weight:300;letter-spacing:0.25em;color:var(--gold);line-height:1;margin-bottom:2rem;}
+.landing-phrase{font-family:'Cormorant Garamond',serif;font-size:clamp(1rem,2.5vw,1.2rem);font-weight:300;font-style:italic;color:var(--text-muted);max-width:520px;line-height:1.85;margin:0 auto 2.5rem;}
+.landing-phrase strong{color:var(--text);font-style:normal;font-weight:500;display:block;margin-bottom:0.75rem;}
+.landing-actions{display:flex;flex-direction:column;gap:0.85rem;width:100%;max-width:320px;}
+#screen-auth{align-items:center;justify-content:center;padding:2rem;background:var(--bg);min-height:100vh;}
+.auth-card{background:var(--bg-card);border:1px solid var(--border);padding:2.5rem 2rem;width:100%;max-width:380px;}
+.auth-logo{width:56px;height:56px;object-fit:contain;display:block;margin:0 auto 1.25rem;}
+.auth-title{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:300;letter-spacing:0.15em;color:var(--gold);text-align:center;margin-bottom:0.4rem;}
+.auth-sub{font-size:0.72rem;color:var(--text-muted);text-align:center;margin-bottom:1.75rem;letter-spacing:0.05em;}
+.auth-toggle{font-size:0.72rem;color:var(--text-muted);text-align:center;margin-top:1.25rem;}
+.auth-toggle a{color:var(--gold);cursor:pointer;}
+.field{margin-bottom:1rem;}
+.field label{display:block;font-size:0.65rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);margin-bottom:0.4rem;}
+.field input,.field select,.field textarea{width:100%;background:var(--bg-input);border:1px solid var(--border);color:var(--text);padding:0.85rem 1rem;font-size:0.85rem;font-family:'Montserrat',sans-serif;outline:none;transition:border-color 0.2s;}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--gold);}
+.field input::placeholder,.field textarea::placeholder{color:var(--text-dim);}
+.field textarea{resize:vertical;min-height:90px;}
+.field select{appearance:none;cursor:pointer;}
+.btn-gold{background:var(--gold);border:none;color:#fff;padding:0.9rem 2.5rem;font-family:'Montserrat',sans-serif;font-size:0.68rem;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;width:100%;}
+.btn-gold:hover{background:var(--gold-light);}
+.btn-gold:disabled{opacity:0.5;cursor:not-allowed;}
+.btn-outline{background:transparent;border:1px solid var(--border-strong);color:var(--text-muted);padding:0.9rem 2.5rem;font-family:'Montserrat',sans-serif;font-size:0.68rem;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;width:100%;}
+.btn-outline:hover{border-color:var(--gold);color:var(--gold);}
+.btn-outline-light{background:transparent;border:1.5px solid var(--border-strong);color:var(--text-muted);padding:0.9rem 2.5rem;font-family:'Montserrat',sans-serif;font-size:0.68rem;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;width:100%;}
+.btn-outline-light:hover{border-color:var(--gold);color:var(--gold);}
+.btn-text{background:none;border:none;color:var(--gold);font-size:0.72rem;cursor:pointer;font-family:'Montserrat',sans-serif;letter-spacing:0.05em;}
+.topbar{background:var(--bg-card);border-bottom:1px solid var(--border);padding:1rem 1.5rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;}
+.topbar-logo{display:flex;align-items:center;gap:0.6rem;}
+.topbar-logo img{width:28px;height:28px;object-fit:contain;}
+.topbar-logo span{font-family:'Cormorant Garamond',serif;font-size:1rem;letter-spacing:0.2em;color:var(--gold);font-weight:300;}
+.topbar-actions{display:flex;align-items:center;gap:1rem;}
+.topbar-user{font-size:0.68rem;color:var(--text-muted);letter-spacing:0.05em;}
+.dash-main{flex:1;padding:1.5rem;overflow-y:auto;padding-bottom:2rem;}
+.dash-welcome{margin-bottom:1.75rem;}
+.dash-welcome h2{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:300;color:var(--text);margin-bottom:0.25rem;}
+.dash-welcome p{font-size:0.75rem;color:var(--text-muted);line-height:1.6;}
+.section-title{font-size:0.62rem;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-dim);margin-bottom:1rem;}
+.proto-grid{display:flex;flex-direction:column;gap:0.75rem;margin-bottom:2rem;}
+.proto-card{background:var(--bg-card);border:1px solid var(--border);padding:1.25rem 1.5rem;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:1rem;}
+.proto-card:hover{border-color:var(--gold);}
+.proto-card.concluido{border-color:var(--gold-dark);background:linear-gradient(135deg,#FDF8EE,#F5F0E8);}
+.proto-num{font-family:'Cormorant Garamond',serif;font-size:1.75rem;font-weight:300;color:var(--gold-muted);min-width:40px;}
+.proto-info{flex:1;}
+.proto-nome{font-size:0.8rem;font-weight:600;letter-spacing:0.08em;color:var(--text);margin-bottom:0.2rem;}
+.proto-desc{font-size:0.72rem;color:var(--text-muted);line-height:1.5;}
+.proto-status{font-size:0.65rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;}
+.proto-status.ok{color:var(--gold-dark);}
+.proto-status.pendente{color:var(--text-dim);}
+.progress-bar{height:3px;background:var(--border);margin-bottom:0.4rem;overflow:hidden;}
+.progress-fill{height:100%;background:var(--gold);transition:width 0.5s ease;}
+.progress-label{font-size:0.65rem;color:var(--text-dim);letter-spacing:0.05em;}
+.proto-header{padding:1.5rem;border-bottom:1px solid var(--border);background:var(--bg-card);}
+.proto-header-num{font-family:'Cormorant Garamond',serif;font-size:0.9rem;color:var(--gold-muted);letter-spacing:0.15em;margin-bottom:0.25rem;}
+.proto-header-title{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:300;color:var(--text);}
+.proto-body{flex:1;padding:1.5rem;overflow-y:auto;padding-bottom:3rem;}
+.pergunta-bloco{margin-bottom:2rem;}
+.pergunta-num{font-size:0.6rem;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold-muted);margin-bottom:0.5rem;}
+.pergunta-texto{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:300;color:var(--text);margin-bottom:0.35rem;line-height:1.6;}
+.pergunta-hint{font-size:0.72rem;color:var(--text-muted);font-style:italic;margin-bottom:0.75rem;line-height:1.5;}
+.padroes-section{margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--border);}
+.padroes-title{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:300;color:var(--text);margin-bottom:0.5rem;}
+.padroes-sub{font-size:0.72rem;color:var(--text-muted);margin-bottom:1rem;line-height:1.5;}
+.padroes-grid{display:flex;flex-direction:column;gap:0.5rem;}
+.padrao-item{display:flex;align-items:flex-start;gap:0.75rem;padding:0.85rem 1rem;background:var(--bg-input);border:1px solid var(--border);cursor:pointer;transition:all 0.15s;}
+.padrao-item:hover{border-color:var(--gold-muted);}
+.padrao-item.selected{border-color:var(--gold);background:#FDF8EE;}
+.padrao-check{width:16px;height:16px;border:1.5px solid var(--border-strong);flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;transition:all 0.15s;}
+.padrao-item.selected .padrao-check{background:var(--gold);border-color:var(--gold);}
+.padrao-check-inner{width:8px;height:8px;background:#fff;opacity:0;}
+.padrao-item.selected .padrao-check-inner{opacity:1;}
+.padrao-texto{font-size:0.8rem;color:var(--text);line-height:1.5;}
+.padrao-texto strong{color:var(--text);font-weight:600;display:block;margin-bottom:0.2rem;}
+.avaliacao-section{margin-top:2rem;padding:1.25rem;background:var(--bg-section);border:1px solid var(--border);}
+.avaliacao-title{font-size:0.72rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:1rem;}
+.estrelas{display:flex;gap:0.5rem;margin-bottom:0.75rem;}
+.estrela{font-size:1.5rem;cursor:pointer;color:var(--border-strong);transition:color 0.15s;}
+.estrela.ativa{color:var(--gold);}
+.mapa-section{padding:1.5rem;}
+.mapa-bloco{background:var(--bg-card);border:1px solid var(--border);padding:1.5rem;margin-bottom:1rem;}
+.mapa-bloco-title{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:300;color:var(--text);margin-bottom:1rem;padding-bottom:0.75rem;border-bottom:1px solid var(--border);}
+.mapa-item{display:flex;align-items:flex-start;gap:0.75rem;margin-bottom:0.75rem;font-size:0.82rem;color:var(--text);line-height:1.6;}
+.mapa-item-dot{width:6px;height:6px;background:var(--gold);border-radius:50%;margin-top:7px;flex-shrink:0;}
+.mapa-item-dot.atencao{background:var(--text-muted);}
+.analise-texto{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:300;color:var(--text);line-height:1.85;}
+.loading-dots{display:flex;gap:6px;justify-content:center;padding:2rem;}
+.loading-dots span{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:blink 1.4s ease-in-out infinite;}
+.loading-dots span:nth-child(2){animation-delay:0.2s;}
+.loading-dots span:nth-child(3){animation-delay:0.4s;}
+@keyframes blink{0%,100%{opacity:0.2;}50%{opacity:1;}}
+.onboard-header{padding:1.5rem;border-bottom:1px solid var(--border);background:var(--bg-card);}
+.onboard-step{font-size:0.62rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold-muted);margin-bottom:0.25rem;}
+.onboard-title{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:300;color:var(--text);}
+.onboard-body{flex:1;padding:1.5rem;overflow-y:auto;padding-bottom:3rem;}
+.opcoes-grid{display:flex;flex-direction:column;gap:0.5rem;margin-bottom:1rem;}
+.opcao-item{padding:0.85rem 1rem;background:var(--bg-input);border:1px solid var(--border);cursor:pointer;transition:all 0.15s;font-size:0.82rem;color:var(--text);display:flex;align-items:center;gap:0.75rem;}
+.opcao-item:hover{border-color:var(--gold-muted);}
+.opcao-item.selected{border-color:var(--gold);background:#FDF8EE;color:var(--text);}
+.opcao-radio{width:14px;height:14px;border:1.5px solid var(--border-strong);border-radius:50%;flex-shrink:0;transition:all 0.15s;}
+.opcao-item.selected .opcao-radio{background:var(--gold);border-color:var(--gold);}
+.admin-main{flex:1;padding:1.5rem;overflow-y:auto;}
+.admin-stats{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:1.75rem;}
+.admin-stat{background:var(--bg-card);border:1px solid var(--border);padding:1.25rem;}
+.admin-stat-num{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:var(--gold);margin-bottom:0.25rem;}
+.admin-stat-label{font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);}
+.admin-chart{background:var(--bg-card);border:1px solid var(--border);padding:1.25rem;margin-bottom:1rem;}
+.admin-chart-title{font-size:0.65rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:1rem;}
+.admin-table{width:100%;border-collapse:collapse;}
+.admin-table th{font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);padding:0.5rem 0.75rem;text-align:left;border-bottom:1px solid var(--border);}
+.admin-table td{font-size:0.75rem;color:var(--text);padding:0.75rem;border-bottom:1px solid var(--border);}
+.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(20px);background:var(--text);color:var(--bg);padding:0.65rem 1.5rem;font-size:0.75rem;letter-spacing:0.05em;opacity:0;transition:all 0.3s;z-index:999;white-space:nowrap;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+.error-msg{font-size:0.72rem;color:#C0392B;margin-top:0.5rem;text-align:center;}
+.divider{height:1px;background:var(--border);margin:1.5rem 0;}
+.proto-footer{padding:1.25rem 1.5rem;background:var(--bg-card);border-top:1px solid var(--border);display:flex;gap:0.75rem;}
+</style>
+</head>
+<body>
+
+<div id="screen-landing" class="screen active">
+  <img src="Logos%20LIE%20-%20Whats.png" class="landing-logo" alt="Matriz" onerror="this.style.display='none'">
+  <h1 class="landing-title">MATRIZ</h1>
+  <div class="landing-phrase">
+    <strong>"O que você não quer é exatamente o que você tem."</strong>
+    A sua Matriz está ativa há mais tempo do que você imagina.<br>E os resultados da sua vida provam isso.
+  </div>
+  <div class="landing-actions">
+    <button class="btn-gold" onclick="goTo('auth','register')">Começar agora</button>
+    <button class="btn-outline-light" onclick="goTo('auth','login')">Já tenho acesso</button>
+  </div>
+</div>
+
+<div id="screen-auth" class="screen">
+  <div style="flex:1;display:flex;align-items:center;justify-content:center;padding:2rem">
+    <div class="auth-card">
+      <img src="Logos%20LIE%20-%20Whats.png" class="auth-logo" alt="Matriz" onerror="this.style.display='none'">
+      <div class="auth-title">MATRIZ</div>
+      <div class="auth-sub" id="auth-subtitle">Crie sua conta para começar</div>
+      <div id="auth-form-register">
+        <div class="field"><label>Nome completo</label><input type="text" id="reg-nome" placeholder="Seu nome"></div>
+        <div class="field"><label>E-mail</label><input type="email" id="reg-email" placeholder="seu@email.com"></div>
+        <div class="field"><label>Senha</label><input type="password" id="reg-senha" placeholder="Mínimo 6 caracteres"></div>
+        <div id="reg-error" class="error-msg"></div>
+        <button class="btn-gold" onclick="registrar()" style="margin-top:0.5rem">Criar conta</button>
+        <div class="auth-toggle">Já tem conta? <a onclick="toggleAuth('login')">Entrar</a></div>
+      </div>
+      <div id="auth-form-login" style="display:none">
+        <div class="field"><label>E-mail</label><input type="email" id="log-email" placeholder="seu@email.com"></div>
+        <div class="field"><label>Senha</label><input type="password" id="log-senha" placeholder="Sua senha"></div>
+        <div id="log-error" class="error-msg"></div>
+        <button class="btn-gold" onclick="login()" style="margin-top:0.5rem">Entrar</button>
+        <div class="auth-toggle">Não tem conta? <a onclick="toggleAuth('register')">Criar agora</a></div>
+      </div>
+      <div style="margin-top:1rem;text-align:center"><button class="btn-text" onclick="goTo('landing')">← Voltar</button></div>
+    </div>
+  </div>
+</div>
+
+<div id="screen-onboard" class="screen">
+  <div class="onboard-header">
+    <div class="onboard-step" id="ob-step-label">Passo 1 de 12</div>
+    <div class="onboard-title" id="ob-title"></div>
+    <div class="progress-bar" style="margin-top:1rem;margin-bottom:0"><div class="progress-fill" id="ob-progress" style="width:8%"></div></div>
+  </div>
+  <div class="onboard-body" id="ob-body"></div>
+  <div class="proto-footer">
+    <button class="btn-outline" onclick="obAnterior()" id="ob-prev" style="flex:1">Anterior</button>
+    <button class="btn-gold" onclick="obProximo()" id="ob-next" style="flex:2">Próximo</button>
+  </div>
+</div>
+
+<div id="screen-dashboard" class="screen">
+  <div class="topbar">
+    <div class="topbar-logo">
+      <img id="dash-logo" src="Logos%20LIE%20-%20Whats.png" alt="" onerror="this.style.display='none'">
+      <span>MATRIZ</span>
+    </div>
+    <div class="topbar-actions">
+      <span class="topbar-user" id="dash-user-name"></span>
+      <button class="btn-text" onclick="logout()">Sair</button>
+    </div>
+  </div>
+  <div class="dash-main">
+    <div class="dash-welcome">
+      <h2 id="dash-greeting">Bem-vindo(a)</h2>
+      <p>Sua jornada de mapeamento comportamental começa aqui. Cada protocolo revela uma camada da sua Matriz.</p>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="dash-progress" style="width:0%"></div></div>
+    <div class="progress-label" id="dash-progress-label">0 de 5 protocolos concluídos</div>
+    <div class="section-title" style="margin-top:1.5rem">Os 5 Protocolos</div>
+    <div class="proto-grid" id="proto-grid"></div>
+    <button class="btn-gold" id="btn-mapa-final" onclick="goTo('mapa-final')" style="display:none">Ver Meu Mapa Final →</button>
+  </div>
+</div>
+
+<div id="screen-protocolo" class="screen">
+  <div class="topbar">
+    <div class="topbar-logo">
+      <img id="proto-logo" src="Logos%20LIE%20-%20Whats.png" alt="" onerror="this.style.display='none'">
+      <span>MATRIZ</span>
+    </div>
+    <div class="topbar-actions">
+      <button class="btn-text" onclick="goTo('dashboard')">← Dashboard</button>
+    </div>
+  </div>
+  <div class="proto-header">
+    <div class="proto-header-num" id="proto-num-label"></div>
+    <div class="proto-header-title" id="proto-title-label"></div>
+  </div>
+  <div class="proto-body" id="proto-body"></div>
+  <div class="proto-footer">
+    <button class="btn-outline" onclick="goTo('dashboard')" style="flex:1">Voltar</button>
+    <button class="btn-gold" onclick="salvarProtocolo()" style="flex:2">Salvar e Continuar</button>
+  </div>
+</div>
+
+<div id="screen-mapa-final" class="screen">
+  <div class="topbar">
+    <div class="topbar-logo">
+      <img id="mf-logo" src="Logos%20LIE%20-%20Whats.png" alt="" onerror="this.style.display='none'">
+      <span>MATRIZ</span>
+    </div>
+    <div class="topbar-actions">
+      <button class="btn-text" onclick="goTo('dashboard')">← Dashboard</button>
+    </div>
+  </div>
+  <div class="mapa-section" id="mapa-content">
+    <div class="loading-dots"><span></span><span></span><span></span></div>
+  </div>
+</div>
+
+<div id="screen-admin" class="screen">
+  <div class="topbar">
+    <div class="topbar-logo"><span>ADMIN — MATRIZ</span></div>
+    <div class="topbar-actions"><button class="btn-text" onclick="goTo('landing')">Sair</button></div>
+  </div>
+  <div class="admin-main" id="admin-content"><div class="loading-dots"><span></span><span></span><span></span></div></div>
+</div>
+
+<div id="screen-admin-login" class="screen">
+  <div style="flex:1;display:flex;align-items:center;justify-content:center;padding:2rem">
+    <div class="auth-card">
+      <div class="auth-title" style="margin-bottom:1.5rem">ADMIN</div>
+      <div class="field"><label>Senha</label><input type="password" id="admin-senha" placeholder="Senha admin"></div>
+      <div id="admin-error" class="error-msg"></div>
+      <button class="btn-gold" onclick="handleAdminLogin()" style="margin-top:0.5rem">Entrar</button>
+      <div style="margin-top:1rem;text-align:center"><button class="btn-text" onclick="goTo('landing')">← Voltar</button></div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const SUPA_URL='https://kbhaudmyckotxvbyhjpm.supabase.co';
+const SUPA_KEY='sb_publishable_zFGvKlXIWrqKymBuEaOiJA_lslaJObz';
+const ADMIN_PASS='matriz2024admin';
+
+async function sb(table,method,body,query){
+  method=method||'GET';query=query||'';
+  const h={'Content-Type':'application/json','apikey':SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY};
+  if(method==='POST')h['Prefer']='return=representation';
+  const r=await fetch(SUPA_URL+'/rest/v1/'+table+query,{method,headers:h,body:body?JSON.stringify(body):null});
+  if(!r.ok){const e=await r.json();throw new Error(e.message||'Erro');}
+  const t=await r.text();return t?JSON.parse(t):null;
+}
+
+let S={user:null,protocolos:[],onboardStep:0,onboardRespostas:{},currentProto:null,protoRespostas:{},protoPadroes:[],protoAvaliacao:0};
+
+function saveLocal(){try{localStorage.setItem('mz_user',JSON.stringify(S.user));}catch{}}
+function loadLocal(){try{const u=localStorage.getItem('mz_user');if(u)S.user=JSON.parse(u);}catch{}}
+
+function goTo(screen,sub){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('screen-'+screen).classList.add('active');
+  window.scrollTo(0,0);
+  if(screen==='auth')toggleAuth(sub||'register');
+  if(screen==='dashboard')renderDashboard();
+  if(screen==='mapa-final')renderMapaFinal();
+  if(screen==='admin')renderAdmin();
+}
+
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
+
+function toggleAuth(mode){
+  document.getElementById('auth-form-register').style.display=mode==='register'?'block':'none';
+  document.getElementById('auth-form-login').style.display=mode==='login'?'block':'none';
+  document.getElementById('auth-subtitle').textContent=mode==='register'?'Crie sua conta para começar':'Entre na sua conta';
+}
+
+async function registrar(){
+  const nome=document.getElementById('reg-nome').value.trim();
+  const email=document.getElementById('reg-email').value.trim();
+  const senha=document.getElementById('reg-senha').value;
+  const errEl=document.getElementById('reg-error');
+  errEl.textContent='';
+  if(!nome||!email||!senha){errEl.textContent='Preencha todos os campos.';return;}
+  if(senha.length<6){errEl.textContent='Senha deve ter mínimo 6 caracteres.';return;}
+  try{
+    const existing=await sb('usuarios','GET',null,'?email=eq.'+encodeURIComponent(email)+'&select=id');
+    if(existing&&existing.length>0){errEl.textContent='E-mail já cadastrado. Faça login.';return;}
+    const user=await sb('usuarios','POST',{nome,email,senha});
+    S.user=user[0];saveLocal();
+    await sb('acessos','POST',{usuario_id:S.user.id});
+    iniciarOnboarding();
+  }catch(e){errEl.textContent=e.message||'Erro ao criar conta.';}
+}
+
+async function login(){
+  const email=document.getElementById('log-email').value.trim();
+  const senha=document.getElementById('log-senha').value;
+  const errEl=document.getElementById('log-error');
+  errEl.textContent='';
+  if(!email||!senha){errEl.textContent='Preencha todos os campos.';return;}
+  try{
+    const users=await sb('usuarios','GET',null,'?email=eq.'+encodeURIComponent(email)+'&senha=eq.'+encodeURIComponent(senha)+'&select=*');
+    if(!users||users.length===0){errEl.textContent='E-mail ou senha incorretos.';return;}
+    S.user=users[0];saveLocal();
+    await sb('acessos','POST',{usuario_id:S.user.id});
+    await sb('usuarios','PATCH',{ultimo_acesso:new Date().toISOString()},'?id=eq.'+S.user.id);
+    await carregarProtocolos();
+    const perfil=await sb('perfil_inicial','GET',null,'?usuario_id=eq.'+S.user.id+'&select=id').catch(()=>[]);
+    if(!perfil||perfil.length===0)iniciarOnboarding();
+    else goTo('dashboard');
+  }catch(e){errEl.textContent=e.message||'Erro ao entrar.';}
+}
+
+async function logout(){S.user=null;S.protocolos=[];localStorage.removeItem('mz_user');goTo('landing');}
+
+const OB_PERGUNTAS=[
+  {id:'atuacao',tipo:'radio',titulo:'Como você atua profissionalmente?',opcoes:['Emprego formal (carteira assinada)','Empreendedor(a) Individual','Profissional Liberal','Freelancer','Em transição de carreira','Outro'],temOutro:true},
+  {id:'idade',tipo:'radio',titulo:'Qual a sua faixa de idade?',opcoes:['18-25 anos','26-35 anos','36-45 anos','46-55 anos','55+ anos']},
+  {id:'estado_civil',tipo:'radio',titulo:'Qual o seu estado civil?',opcoes:['Solteiro(a)','Casado(a)','Divorciado(a)','Viúvo(a)','Em relacionamento']},
+  {id:'tem_filhos',tipo:'radio',titulo:'Tem filhos?',opcoes:['Não','Sim, 1 filho(a)','Sim, 2 ou mais']},
+  {id:'se_descreve',tipo:'radio',titulo:'Como você se descreveria em uma palavra?',opcoes:['Determinado(a)','Sensível','Analítico(a)','Tranquilo(a)','Intenso(a)','Perdido(a)']},
+  {id:'o_que_move',tipo:'radio',titulo:'O que mais te move no dia a dia?',opcoes:['Resultados','Relacionamentos','Segurança','Propósito','Reconhecimento']},
+  {id:'o_que_evita',tipo:'radio',titulo:'O que você mais evita?',opcoes:['Conflito','Fracasso','Rejeição','Solidão','Perder o controle']},
+  {id:'maior_sonho',tipo:'textarea',titulo:'Qual o seu maior sonho hoje?',placeholder:'Escreva com liberdade...'},
+  {id:'maior_frustracao',tipo:'textarea',titulo:'Qual a sua maior frustração hoje?',placeholder:'Seja honesto(a) consigo mesmo(a)...'},
+  {id:'dia_mais_feliz',tipo:'textarea',titulo:'Qual foi o dia mais feliz da sua vida?',placeholder:'Descreva esse momento...'},
+  {id:'dia_mais_triste',tipo:'textarea',titulo:'Qual foi o dia mais triste da sua vida?',placeholder:'Pode compartilhar com tranquilidade...'},
+  {id:'quem_voce_e',tipo:'textarea',titulo:'Me conte — quem você é?',placeholder:'Sem filtros. Quem você realmente é...'},
+];
+
+function iniciarOnboarding(){S.onboardStep=0;S.onboardRespostas={};goTo('onboard');renderObStep();}
+
+function renderObStep(){
+  const q=OB_PERGUNTAS[S.onboardStep];
+  const total=OB_PERGUNTAS.length;
+  document.getElementById('ob-step-label').textContent='Passo '+(S.onboardStep+1)+' de '+total;
+  document.getElementById('ob-title').textContent=q.titulo;
+  document.getElementById('ob-progress').style.width=(((S.onboardStep+1)/total)*100)+'%';
+  document.getElementById('ob-prev').style.visibility=S.onboardStep===0?'hidden':'visible';
+  document.getElementById('ob-next').textContent=S.onboardStep===total-1?'Concluir':'Próximo';
+  const body=document.getElementById('ob-body');
+  const resposta=S.onboardRespostas[q.id]||'';
+  if(q.tipo==='radio'){
+    const mostrarOutro=q.temOutro&&resposta==='Outro';
+    body.innerHTML='<div class="opcoes-grid">'+q.opcoes.map(op=>`<div class="opcao-item ${resposta===op?'selected':''}" onclick="selecionarOpcao('${q.id}',this,'${op.replace(/'/g,"\\'")}')"><div class="opcao-radio"></div><span>${op}</span></div>`).join('')+'</div>'+(mostrarOutro?`<div class="field" style="margin-top:0.5rem"><input type="text" id="ob-outro" value="${S.onboardRespostas[q.id+'_outro']||''}" placeholder="Descreva brevemente..." style="padding:0.75rem 1rem;width:100%;background:var(--bg-input);border:1px solid var(--border);color:var(--text);font-family:Montserrat,sans-serif;font-size:0.82rem;outline:none;"></div>`:'');
+  }else{
+    body.innerHTML='<div class="field"><textarea id="ob-textarea" placeholder="'+q.placeholder+'" style="min-height:140px">'+resposta+'</textarea></div>';
+  }
+}
+
+function selecionarOpcao(id,el,valor){
+  document.querySelectorAll('.opcao-item').forEach(o=>o.classList.remove('selected'));
+  el.classList.add('selected');
+  S.onboardRespostas[id]=valor;
+  const q=OB_PERGUNTAS[S.onboardStep];
+  if(q.temOutro&&valor==='Outro')renderObStep();
+}
+
+function obProximo(){
+  const q=OB_PERGUNTAS[S.onboardStep];
+  if(q.tipo==='textarea'){
+    const val=document.getElementById('ob-textarea')?.value.trim();
+    if(!val){toast('Por favor responda antes de continuar.');return;}
+    S.onboardRespostas[q.id]=val;
+  }else{
+    if(!S.onboardRespostas[q.id]){toast('Selecione uma opção para continuar.');return;}
+    if(q.temOutro&&S.onboardRespostas[q.id]==='Outro'){
+      const outro=document.getElementById('ob-outro')?.value.trim();
+      if(!outro){toast('Descreva sua situação profissional.');return;}
+      S.onboardRespostas[q.id+'_outro']=outro;
+    }
+  }
+  if(S.onboardStep<OB_PERGUNTAS.length-1){S.onboardStep++;renderObStep();}
+  else salvarOnboarding();
+}
+
+function obAnterior(){if(S.onboardStep>0){S.onboardStep--;renderObStep();}}
+
+async function salvarOnboarding(){
+  try{
+    const r=S.onboardRespostas;
+    await sb('perfil_inicial','POST',{usuario_id:S.user.id,atuacao:r.atuacao,atuacao_outro:r.atuacao_outro||null,idade:r.idade,estado_civil:r.estado_civil,tem_filhos:r.tem_filhos,se_descreve:r.se_descreve,o_que_move:r.o_que_move,o_que_evita:r.o_que_evita,maior_sonho:r.maior_sonho,maior_frustracao:r.maior_frustracao,dia_mais_feliz:r.dia_mais_feliz,dia_mais_triste:r.dia_mais_triste,quem_voce_e:r.quem_voce_e});
+    toast('Perfil salvo! Bem-vindo(a) à Matriz.');
+    await carregarProtocolos();
+    goTo('dashboard');
+  }catch(e){toast('Erro ao salvar perfil. Tente novamente.');}
+}
+
+const PROTOCOLOS_DATA=[
+  {num:1,key:'origem',nome:'Protocolo Origem',titulo:'Onde a Matriz Foi Criada',desc:'Investigamos os primeiros anos da sua vida — onde os programas foram instalados.',
+  perguntas:[
+    {id:'p1q1',texto:'Como era o ambiente da sua casa nos primeiros anos de vida?',hint:'Descreva o clima emocional — não as pessoas. A casa. O ambiente geral.'},
+    {id:'p1q2',texto:'Qual era a emoção predominante na sua família?',hint:'Tensão, alegria, silêncio, medo, amor, conflito...'},
+    {id:'p1q3',texto:'Quando você estava triste ou com medo — o que acontecia?',hint:'Havia acolhimento? Silêncio? Punição? Indiferença?'},
+    {id:'p1q4',texto:'O que você precisava fazer para ser amado(a) e aceito(a)?',hint:'Não o que deveria — o que na prática funcionava para ser visto(a).'},
+    {id:'p1q5',texto:'Qual foi a primeira grande decepção da sua vida?',hint:'Não precisa ser dramático. Pode ser um momento simples.'},
+  ],
+  padroes:[
+    {id:'or1',nome:'Ambiente de tensão constante',desc:'Cresceu num ambiente onde a tensão era o estado padrão — mesmo quando nada de grave acontecia.'},
+    {id:'or2',nome:'Amor condicional',desc:'O amor e a aceitação dependiam de comportamento, desempenho ou conformidade.'},
+    {id:'or3',nome:'Silêncio emocional',desc:'Sentimentos não eram bem-vindos. A regra era suprimir, ignorar ou minimizar o que sentia.'},
+    {id:'or4',nome:'Instabilidade como padrão',desc:'Imprevisibilidade era a norma — nunca sabia o que esperar, então aprendeu a controlar ou a se recolher.'},
+    {id:'or5',nome:'Responsabilidade precoce',desc:'Assumiu responsabilidades emocionais ou práticas que não eram suas — cuidar dos outros antes de si mesmo(a).'},
+  ]},
+  {num:2,key:'verdade',nome:'Protocolo Verdade',titulo:'O Que Foi Instalado Como Verdade',desc:'As crenças que viraram lei — sem você ter escolhido acreditar nelas.',
+  perguntas:[
+    {id:'p2q1',texto:'O que você aprendeu sobre dinheiro na sua família?',hint:'Dinheiro é difícil? Perigoso? Não é para todos? A gente nunca tem o suficiente?'},
+    {id:'p2q2',texto:'O que você aprendeu sobre relacionamentos?',hint:'Amor dói? Pessoas vão embora? É preciso lutar? Tem que merecer?'},
+    {id:'p2q3',texto:'O que você aprendeu sobre quem você é?',hint:'Você é capaz? Especial? Um fardo? Diferente? Menos que os outros?'},
+    {id:'p2q4',texto:'Qual frase do seu passado ainda ressoa dentro de você?',hint:'Pode ser de um familiar, professor, colega. Uma frase que ficou.'},
+    {id:'p2q5',texto:'O que você acredita que precisa ser verdade para você merecer o que quer?',hint:'O que você inconscientemente exige de si mesmo(a) antes de poder ter o que deseja?'},
+  ],
+  padroes:[
+    {id:'ve1',nome:'Escassez como identidade',desc:'Aprendeu que falta é o estado natural — de dinheiro, de amor, de oportunidade, de tempo.'},
+    {id:'ve2',nome:'Indignidade estrutural',desc:'No fundo acredita que não merece completamente — e isso sabota antes de chegar lá.'},
+    {id:'ve3',nome:'Perigo no crescimento',desc:'Avançar traz risco — de perder pessoas, de ser diferente, de não pertencer mais.'},
+    {id:'ve4',nome:'Amor como barganha',desc:'Amor vem com custo. É preciso fazer, ser ou entregar algo para recebê-lo.'},
+    {id:'ve5',nome:'Autossuficiência como defesa',desc:'Aprendeu que depender dos outros é perigoso — então faz tudo sozinho(a), mesmo quando não precisa.'},
+  ]},
+  {num:3,key:'teia',nome:'Protocolo Teia',titulo:'O Mundo Que Confirma O Que Você Acredita',desc:'Seu inconsciente constrói o mundo que confirma o que acredita. Vamos ver essa teia.',
+  perguntas:[
+    {id:'p3q1',texto:'Quais situações se repetem na sua vida mesmo quando você tenta mudar?',hint:'Relacionamentos que terminam do mesmo jeito. Empregos que frustram da mesma forma. Dinheiro que some no mesmo padrão.'},
+    {id:'p3q2',texto:'Que tipo de pessoa você atrai repetidamente?',hint:'Nas amizades, nos relacionamentos, no trabalho.'},
+    {id:'p3q3',texto:'Como você costuma sabotar o que está dando certo?',hint:'Quando algo bom acontece — o que você faz que compromete?'},
+    {id:'p3q4',texto:'O que as pessoas mais reclamam de você?',hint:'Não o que você acha — o que dizem.'},
+    {id:'p3q5',texto:'Qual é a história que você conta sobre sua vida que justifica onde você está?',hint:'Toda Matriz tem uma narrativa que explica porque as coisas são assim.'},
+  ],
+  padroes:[
+    {id:'te1',nome:'Ciclo de sabotagem',desc:'Quando chega perto do que quer, algo interno cria uma urgência para destruir ou abandonar.'},
+    {id:'te2',nome:'Atração de padrões familiares',desc:'Atrai pessoas e situações que reproduzem a dinâmica emocional da infância — mesmo que dolorosa.'},
+    {id:'te3',nome:'Narrativa de justificativa',desc:'Mantém uma história que explica porque ainda não chegou onde quer — e que protege de tentar de novo.'},
+    {id:'te4',nome:'Boicote no limiar',desc:'Avança até um certo ponto — e antes de cruzar, recua. O sucesso assusta mais que o fracasso.'},
+    {id:'te5',nome:'Confirmação seletiva',desc:'Interpreta os eventos de forma a confirmar o que já acredita — ignora o que contradiz a narrativa.'},
+  ]},
+  {num:4,key:'entrega',nome:'Protocolo Entrega',titulo:'O Que a Matriz Entrega Profissionalmente',desc:'Como seus padrões internos se manifestam no trabalho, carreira e dinheiro.',
+  perguntas:[
+    {id:'p4q1',texto:'Qual é a sua relação atual com dinheiro?',hint:'Falta? Sobra e some? Nunca é suficiente? Vem mas vai embora?'},
+    {id:'p4q2',texto:'O que impede você de ganhar mais ou de avançar profissionalmente?',hint:'Seja honesto(a). Não o que te dizem — o que você sente por dentro.'},
+    {id:'p4q3',texto:'Você já chegou perto de uma grande conquista e algo aconteceu antes?',hint:'Promoção que não veio. Negócio que não fechou. Oportunidade que você deixou passar.'},
+    {id:'p4q4',texto:'Como você age quando o sucesso começa a aparecer?',hint:'Acelera? Recua? Sabota? Minimiza? Compartilha com todos?'},
+    {id:'p4q5',texto:'O que o dinheiro representa para você além do financeiro?',hint:'Liberdade? Conflito? Poder? Perda de pessoas? Responsabilidade demais?'},
+  ],
+  padroes:[
+    {id:'en1',nome:'Teto financeiro inconsciente',desc:'Existe um limite financeiro não declarado — e sempre que se aproxima, algo acontece para voltar abaixo dele.'},
+    {id:'en2',nome:'Medo do poder',desc:'Crescer traz visibilidade, responsabilidade e possível rejeição — e isso é mais ameaçador que a estagnação.'},
+    {id:'en3',nome:'Produtividade como anestesia',desc:'Trabalha muito para não sentir — a correria é uma forma de não parar e olhar para dentro.'},
+    {id:'en4',nome:'Desvalorização do próprio trabalho',desc:'Cobra menos, entrega mais e acredita que precisa provar o tempo todo que merece estar onde está.'},
+    {id:'en5',nome:'Dinheiro como ameaça relacional',desc:'No inconsciente, ter mais dinheiro significa perder vínculos, gerar inveja ou se afastar de quem ama.'},
+  ]},
+  {num:5,key:'prova',nome:'Protocolo Prova',titulo:'O Reflexo de Tudo na Sua Vida Hoje',desc:'A Matriz completa se revela aqui — nos resultados que você tem, não nos que quer.',
+  perguntas:[
+    {id:'p5q1',texto:'Como está sua vida hoje comparada com o que você imaginava para si mesmo(a)?',hint:'Não o que esperavam de você — o que você sonhava.'},
+    {id:'p5q2',texto:'Em qual área da vida você sente mais travamento?',hint:'Dinheiro. Relacionamento. Saúde. Carreira. Propósito.'},
+    {id:'p5q3',texto:'Se sua vida pudesse te dar uma mensagem agora — o que ela diria?',hint:'Os resultados que você tem são uma mensagem. O que eles estão dizendo?'},
+    {id:'p5q4',texto:'O que você mais teme que continue igual nos próximos 5 anos?',hint:'Não o que os outros temem por você — o que você teme.'},
+    {id:'p5q5',texto:'Se você soubesse que sua Matriz pode ser reescrita — o que seria diferente?',hint:'Não o que faria diferente no passado — o que seria diferente na sua vida agora.'},
+  ],
+  padroes:[
+    {id:'pr1',nome:'Gap entre potencial e resultado',desc:'Há uma distância clara entre o que consegue e o que poderia — e isso é sentido, mesmo que não dito.'},
+    {id:'pr2',nome:'Relacionamentos como espelho da Matriz',desc:'Os vínculos mais próximos reproduzem as dinâmicas instaladas na origem — inclusive os conflitos.'},
+    {id:'pr3',nome:'Corpo como arquivo emocional',desc:'O que não foi processado emocionalmente aparece no corpo — tensão, cansaço, doenças recorrentes.'},
+    {id:'pr4',nome:'Estagnação como zona de conforto',desc:'O conhecido, mesmo que ruim, é mais seguro que o desconhecido, mesmo que bom.'},
+    {id:'pr5',nome:'Consciência crescente',desc:'Há uma percepção de que algo precisa mudar — e essa percepção é o primeiro sinal de que a Matriz pode ser vista.'},
+    {id:'pr6',nome:'Potencial represado',desc:'Existe uma versão de você que sabe o que é capaz — e que ainda não teve permissão de aparecer completamente.'},
+  ]},
+];
+
+async function carregarProtocolos(){
+  if(!S.user)return;
+  try{S.protocolos=await sb('protocolos','GET',null,'?usuario_id=eq.'+S.user.id+'&select=*')||[];}
+  catch{S.protocolos=[];}
+}
+
+function renderDashboard(){
+  if(!S.user){goTo('landing');return;}
+  document.getElementById('dash-user-name').textContent=S.user.nome.split(' ')[0];
+  document.getElementById('dash-greeting').textContent='Olá, '+S.user.nome.split(' ')[0];
+  const concluidos=S.protocolos.filter(p=>p.concluido).length;
+  document.getElementById('dash-progress').style.width=(concluidos/5*100)+'%';
+  document.getElementById('dash-progress-label').textContent=concluidos+' de 5 protocolos concluídos';
+  const grid=document.getElementById('proto-grid');
+  grid.innerHTML='';
+  PROTOCOLOS_DATA.forEach(p=>{
+    const feito=S.protocolos.find(pp=>pp.protocolo_key===p.key&&pp.concluido);
+    const card=document.createElement('div');
+    card.className='proto-card'+(feito?' concluido':'');
+    card.onclick=()=>abrirProtocolo(p.key);
+    card.innerHTML=`<div class="proto-num">0${p.num}</div><div class="proto-info"><div class="proto-nome">${p.nome}</div><div class="proto-desc">${p.desc}</div></div><div class="proto-status ${feito?'ok':'pendente'}">${feito?'Concluido':'Pendente'}</div>`;
+    grid.appendChild(card);
+  });
+  document.getElementById('btn-mapa-final').style.display=concluidos===5?'block':'none';
+}
+
+function abrirProtocolo(key){
+  const proto=PROTOCOLOS_DATA.find(p=>p.key===key);
+  if(!proto)return;
+  S.currentProto=proto;S.protoRespostas={};S.protoPadroes=[];S.protoAvaliacao=0;
+  const existente=S.protocolos.find(p=>p.protocolo_key===key);
+  if(existente){S.protoRespostas=existente.respostas||{};S.protoPadroes=existente.padroes_selecionados||[];S.protoAvaliacao=existente.avaliacao||0;}
+  document.getElementById('proto-num-label').textContent='PROTOCOLO '+proto.num+' — '+proto.nome.toUpperCase();
+  document.getElementById('proto-title-label').textContent=proto.titulo;
+  renderProtoBody(proto);
+  goTo('protocolo');
+}
+
+function renderProtoBody(proto){
+  const body=document.getElementById('proto-body');
+  let html='';
+  proto.perguntas.forEach((q,i)=>{
+    const val=S.protoRespostas[q.id]||'';
+    html+=`<div class="pergunta-bloco"><div class="pergunta-num">Pergunta ${i+1}</div><div class="pergunta-texto">${q.texto}</div><div class="pergunta-hint">${q.hint}</div><div class="field"><textarea id="${q.id}" placeholder="Escreva com liberdade e honestidade...">${val}</textarea></div></div>`;
+  });
+  html+=`<div class="padroes-section"><div class="padroes-title">Identificacao de Padroes</div><div class="padroes-sub">Selecione os padroes que voce reconhece em si mesmo(a). Pode marcar quantos quiser.</div><div class="padroes-grid">`;
+  proto.padroes.forEach(p=>{
+    const sel=S.protoPadroes.includes(p.id);
+    html+=`<div class="padrao-item ${sel?'selected':''}" onclick="togglePadrao('${p.id}',this)"><div class="padrao-check"><div class="padrao-check-inner"></div></div><div class="padrao-texto"><strong>${p.nome}</strong>${p.desc}</div></div>`;
+  });
+  html+=`</div></div><div class="avaliacao-section"><div class="avaliacao-title">Como este protocolo chegou para voce?</div><div class="estrelas">${[1,2,3,4,5].map(n=>`<span class="estrela ${S.protoAvaliacao>=n?'ativa':''}" onclick="setEstrela(${n})">★</span>`).join('')}</div><div class="field"><textarea id="avaliacao-comentario" placeholder="Comentario opcional..." style="min-height:70px"></textarea></div></div>`;
+  body.innerHTML=html;
+}
+
+function togglePadrao(id,el){
+  el.classList.toggle('selected');
+  if(S.protoPadroes.includes(id))S.protoPadroes=S.protoPadroes.filter(p=>p!==id);
+  else S.protoPadroes.push(id);
+}
+
+function setEstrela(n){
+  S.protoAvaliacao=n;
+  document.querySelectorAll('.estrela').forEach((el,i)=>el.classList.toggle('ativa',i<n));
+}
+
+async function salvarProtocolo(){
+  const proto=S.currentProto;
+  proto.perguntas.forEach(q=>{const el=document.getElementById(q.id);if(el)S.protoRespostas[q.id]=el.value.trim();});
+  const comentario=document.getElementById('avaliacao-comentario')?.value.trim()||'';
+  try{
+    const existente=S.protocolos.find(p=>p.protocolo_key===proto.key);
+    const payload={usuario_id:S.user.id,protocolo_num:proto.num,protocolo_key:proto.key,respostas:S.protoRespostas,padroes_selecionados:S.protoPadroes,avaliacao:S.protoAvaliacao,avaliacao_comentario:comentario,concluido:true,concluido_em:new Date().toISOString()};
+    if(existente)await sb('protocolos','PATCH',payload,'?id=eq.'+existente.id);
+    else await sb('protocolos','POST',payload);
+    await carregarProtocolos();
+    toast(proto.nome+' salvo com sucesso!');
+    goTo('dashboard');
+  }catch(e){toast('Erro ao salvar. Tente novamente.');}
+}
+
+async function renderMapaFinal(){
+  const el=document.getElementById('mapa-content');
+  el.innerHTML='<div class="loading-dots"><span></span><span></span><span></span></div>';
+  try{
+    const perfil=await sb('perfil_inicial','GET',null,'?usuario_id=eq.'+S.user.id+'&select=*');
+    const protos=await sb('protocolos','GET',null,'?usuario_id=eq.'+S.user.id+'&select=*');
+    if(!perfil||perfil.length===0||!protos||protos.length<5){el.innerHTML='<div style="padding:2rem;text-align:center;font-size:0.85rem;color:var(--text-muted)">Conclua todos os 5 protocolos para ver seu Mapa Final.</div>';return;}
+    const p=perfil[0];
+    const padroesSelecionados=protos.flatMap(proto=>{
+      const protoData=PROTOCOLOS_DATA.find(pd=>pd.key===proto.protocolo_key);
+      if(!protoData)return[];
+      return(proto.padroes_selecionados||[]).map(pid=>{const pad=protoData.padroes.find(pp=>pp.id===pid);return pad?pad.nome:null;}).filter(Boolean);
+    });
+    const respostasTexto=protos.map(proto=>{
+      const protoData=PROTOCOLOS_DATA.find(pd=>pd.key===proto.protocolo_key);
+      if(!protoData)return'';
+      return Object.entries(proto.respostas||{}).map(([qid,resp])=>{const q=protoData.perguntas.find(pp=>pp.id===qid);return q?q.texto+': '+resp:'';}).filter(Boolean).join('\n');
+    }).join('\n\n');
+    const analise=await gerarAnalise(p,padroesSelecionados,respostasTexto);
+    renderMapaConteudo(el,padroesSelecionados,analise);
+  }catch(e){el.innerHTML='<div style="padding:2rem;text-align:center;font-size:0.85rem;color:var(--text-muted)">Erro ao gerar analise. Tente novamente.</div>';}
+}
+
+async function gerarAnalise(perfil,padroes,respostas){
+  const prompt=`Voce e um especialista em psicanalise e analise comportamental sistemica. Analise o perfil completo desta pessoa e gere um mapa psicanalitico profundo.
+
+PERFIL:
+Atuacao: ${perfil.atuacao}
+Idade: ${perfil.idade}
+Estado civil: ${perfil.estado_civil}
+Tem filhos: ${perfil.tem_filhos}
+Se descreve como: ${perfil.se_descreve}
+O que mais move: ${perfil.o_que_move}
+O que mais evita: ${perfil.o_que_evita}
+Maior sonho: ${perfil.maior_sonho}
+Maior frustracao: ${perfil.maior_frustracao}
+Dia mais feliz: ${perfil.dia_mais_feliz}
+Dia mais triste: ${perfil.dia_mais_triste}
+Quem e: ${perfil.quem_voce_e}
+
+PADROES IDENTIFICADOS:
+${padroes.join('\n')}
+
+RESPOSTAS AOS PROTOCOLOS:
+${respostas}
+
+Gere uma analise estruturada em JSON com exatamente este formato:
+{"pontos_positivos":["ponto 1","ponto 2","ponto 3","ponto 4"],"pontos_atencao":["ponto 1","ponto 2","ponto 3","ponto 4"],"analise_comportamental":"Um parecer psicanalitico profundo de 3-4 paragrafos sobre os padroes comportamentais e relacionais desta pessoa. Use exemplos concretos baseados nas respostas. Conecte a origem familiar com os padroes atuais. Seja preciso, profundo e humano.","analise_relacional":"Um parecer de 2-3 paragrafos sobre como os padroes se manifestam nos relacionamentos desta pessoa.","caminhos_avanco":["caminho 1 especifico e personalizado","caminho 2","caminho 3"]}
+
+Retorne APENAS o JSON. Sem explicacao. Sem markdown. Sem backticks.`;
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:2000,messages:[{role:'user',content:prompt}]})});
+    const data=await res.json();
+    const text=data.content?.[0]?.text||'';
+    return JSON.parse(text);
+  }catch{
+    return{pontos_positivos:['Consciencia crescente sobre seus padroes','Coragem de investigar a propria origem','Capacidade reflexiva acima da media','Disposicao genuina para mudanca'],pontos_atencao:['Padroes de autossabotagem no limiar do sucesso','Dificuldade em receber sem culpa','Relacionamentos que reproduzem dinamicas antigas','Distancia entre potencial e resultado atual'],analise_comportamental:'Sua jornada pelos 5 protocolos revelou padroes consistentes que operam desde a primeira infancia.',analise_relacional:'Nos seus relacionamentos, os padroes identificados se manifestam de forma sistematica.',caminhos_avanco:['Reconhecer o padrao antes de agir','Trabalhar a relacao com o sucesso','Construir novos vinculos baseados em dinamicas saudaveis']};
+  }
+}
+
+function renderMapaConteudo(el,padroes,analise){
+  el.innerHTML=`
+    <div style="padding-bottom:1rem">
+      <div class="mapa-bloco"><div style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:300;color:var(--text);margin-bottom:0.75rem">Seu Mapa da Matriz</div><p style="font-size:0.78rem;color:var(--text-muted);line-height:1.7">O que voce revelou ao longo dos 5 protocolos formou um retrato do que esteve operando em silencio.</p></div>
+      <div class="mapa-bloco"><div class="mapa-bloco-title">Pontos Positivos</div>${analise.pontos_positivos.map(p=>`<div class="mapa-item"><div class="mapa-item-dot"></div><div>${p}</div></div>`).join('')}</div>
+      <div class="mapa-bloco"><div class="mapa-bloco-title">Pontos de Atencao</div>${analise.pontos_atencao.map(p=>`<div class="mapa-item"><div class="mapa-item-dot atencao"></div><div>${p}</div></div>`).join('')}</div>
+      <div class="mapa-bloco"><div class="mapa-bloco-title">Padroes Identificados</div>${padroes.map(p=>`<div class="mapa-item"><div class="mapa-item-dot"></div><div>${p}</div></div>`).join('')}</div>
+      <div class="mapa-bloco"><div class="mapa-bloco-title">Analise Comportamental e Relacional</div><div class="analise-texto">${analise.analise_comportamental}</div><div class="divider"></div><div class="analise-texto">${analise.analise_relacional}</div></div>
+      <div class="mapa-bloco"><div class="mapa-bloco-title">Caminhos de Avanco</div>${analise.caminhos_avanco.map((c,i)=>`<div class="mapa-item"><div class="mapa-item-dot"></div><div><strong style="font-weight:600">${i+1}.</strong> ${c}</div></div>`).join('')}</div>
+      <div style="padding:1.5rem 0"><button class="btn-outline" onclick="goTo('dashboard')">&#8592; Voltar ao Dashboard</button></div>
+    </div>`;
+}
+
+function handleAdminLogin(){
+  const senha=document.getElementById('admin-senha').value;
+  if(senha===ADMIN_PASS)goTo('admin');
+  else document.getElementById('admin-error').textContent='Senha incorreta.';
+}
+
+async function renderAdmin(){
+  const el=document.getElementById('admin-content');
+  el.innerHTML='<div class="loading-dots"><span></span><span></span><span></span></div>';
+  try{
+    const usuarios=await sb('usuarios','GET',null,'?select=*&order=criado_em.desc')||[];
+    const protocolos=await sb('protocolos','GET',null,'?select=*')||[];
+    const acessos=await sb('acessos','GET',null,'?select=*')||[];
+    const hoje=new Date().toISOString().split('T')[0];
+    const acessosHoje=acessos.filter(a=>a.criado_em?.startsWith(hoje)).length;
+    const completaram=usuarios.filter(u=>protocolos.filter(p=>p.usuario_id===u.id&&p.concluido).length===5).length;
+    const avaliacoes=protocolos.filter(p=>p.avaliacao).map(p=>p.avaliacao);
+    const media=avaliacoes.length?(avaliacoes.reduce((a,b)=>a+b,0)/avaliacoes.length).toFixed(1):'--';
+    const padraoCount={};
+    protocolos.forEach(proto=>{
+      const protoData=PROTOCOLOS_DATA.find(pd=>pd.key===proto.protocolo_key);
+      if(!protoData)return;
+      (proto.padroes_selecionados||[]).forEach(pid=>{const pad=protoData.padroes.find(pp=>pp.id===pid);if(pad)padraoCount[pad.nome]=(padraoCount[pad.nome]||0)+1;});
+    });
+    const topPadroes=Object.entries(padraoCount).sort((a,b)=>b[1]-a[1]).slice(0,6);
+    const funilData=[1,2,3,4,5].map(n=>protocolos.filter(p=>p.protocolo_num===n&&p.concluido).length);
+    el.innerHTML=`
+      <div class="section-title" style="padding-top:0.5rem">Visao Geral</div>
+      <div class="admin-stats">
+        <div class="admin-stat"><div class="admin-stat-num">${usuarios.length}</div><div class="admin-stat-label">Usuarios</div></div>
+        <div class="admin-stat"><div class="admin-stat-num">${acessosHoje}</div><div class="admin-stat-label">Acessos hoje</div></div>
+        <div class="admin-stat"><div class="admin-stat-num">${completaram}</div><div class="admin-stat-label">Completaram tudo</div></div>
+        <div class="admin-stat"><div class="admin-stat-num">${media}</div><div class="admin-stat-label">Avaliacao media</div></div>
+      </div>
+      <div class="admin-chart"><div class="admin-chart-title">Funil de Protocolos</div><canvas id="chart-funil" height="200"></canvas></div>
+      <div class="admin-chart"><div class="admin-chart-title">Padroes Mais Identificados</div><canvas id="chart-padroes" height="220"></canvas></div>
+      <div class="admin-chart"><div class="admin-chart-title">Usuarios Cadastrados</div><div style="overflow-x:auto"><table class="admin-table"><thead><tr><th>Nome</th><th>Email</th><th>Protocolos</th><th>Cadastro</th></tr></thead><tbody>${usuarios.map(u=>{const n=protocolos.filter(p=>p.usuario_id===u.id&&p.concluido).length;return`<tr><td>${u.nome}</td><td style="color:var(--text-muted)">${u.email}</td><td>${n}/5</td><td style="color:var(--text-muted)">${new Date(u.criado_em).toLocaleDateString('pt-BR')}</td></tr>`;}).join('')}</tbody></table></div></div>`;
+    setTimeout(()=>{
+      new Chart(document.getElementById('chart-funil'),{type:'bar',data:{labels:['P1 Origem','P2 Verdade','P3 Teia','P4 Entrega','P5 Prova'],datasets:[{label:'Concluidos',data:funilData,backgroundColor:'#B8820F',borderRadius:2}]},options:{plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{stepSize:1}}}}});
+      if(topPadroes.length)new Chart(document.getElementById('chart-padroes'),{type:'bar',data:{labels:topPadroes.map(p=>p[0].length>25?p[0].substring(0,25)+'...':p[0]),datasets:[{label:'Selecoes',data:topPadroes.map(p=>p[1]),backgroundColor:'#C9A44A',borderRadius:2}]},options:{indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{beginAtZero:true}}}});
+    },100);
+  }catch(e){el.innerHTML=`<div style="padding:2rem;text-align:center;color:var(--text-muted)">Erro ao carregar dados: ${e.message}</div>`;}
+}
+
+window.onload=async()=>{
+  if(window.location.search.includes('admin')){goTo('admin-login');return;}
+  loadLocal();
+  if(S.user){
+    await carregarProtocolos();
+    const perfil=await sb('perfil_inicial','GET',null,'?usuario_id=eq.'+S.user.id+'&select=id').catch(()=>[]);
+    if(!perfil||perfil.length===0)iniciarOnboarding();
+    else goTo('dashboard');
+  }
+};
+</script>
+</body>
+</html>
